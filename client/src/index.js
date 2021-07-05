@@ -1,10 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import userLoading from "./components/sign/userLoading";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+userLoading();
+
+ReactDOM.render(<App />, document.getElementById("root"));

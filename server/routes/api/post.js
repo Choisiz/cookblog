@@ -4,7 +4,7 @@ import Post from "../../models/post";
 
 const router = express.Router();
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   const postFindResult = await Post.find(); //find는 몽구스라이브러리
   res.json(postFindResult);
 });

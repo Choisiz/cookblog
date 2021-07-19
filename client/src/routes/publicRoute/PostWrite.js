@@ -5,6 +5,8 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import { editorConfiguration } from "../../components/editor/EditorConfig";
 import Myinit from "../../components/editor/uploadEditor";
+import dotenv from "dotenv";
+dotenv.config();
 const PostWrite = () => {
   const { isAuthenticated } = useSelector((state) => state.login);
   const [form, setForm] = useState({
@@ -29,6 +31,42 @@ const PostWrite = () => {
   const getdataFormCKEditor = (event, editor) => {
     const data = editor.getData(); //CKEdit5 함수: 데이터 호출
     console.log(data);
+    //내용중 이미지만 요청
+    if (data && data.match("<img src=")) {
+      const image_start = data.indexOf("<img src="); //첫번째 이미지만
+      console.log("image_start", image_start);
+      let image_end = "";
+      let ext_name_find = "";
+      let result_img_Url = "";
+      const ext_name = ["jpeg", "jpg", "png", "gif"];
+
+      for (let i = 0; i < ext_name.length; i++) {
+        //이미지 이름에서 정의한 확장자가 존재시
+        if (data.match(ext_name[i])) {
+          console.log(data.indexOf(`${ext_name[i]}`));
+          ext_name_find = ext_name[i];
+          image_end = data.indexOf(`${ext_name[i]}`);
+        }
+      }
+
+      if (ext_name_find === "jpeg") {
+        result_img_Url = data.substring(image_start + 10, image_end + 4);
+      } else {
+        result_img_Url = data.substring(image_start + 10, image_end + 3);
+      }
+      setForm({
+        ...form,
+        fileUrl: result_img_Url,
+        contents: data,
+      });
+    } else {
+      //이미지가 없다면
+      setForm({
+        ...form,
+        fileUrl: process.env.REACT_APP_BASIC_FILE_URL,
+        contents: data,
+      });
+    }
   };
   return (
     <div>

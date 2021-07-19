@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import LoginModal from "../components/sign/LoginModal";
 import RegisterModal from "../components/sign/RegisterModal";
 import { useDispatch, useSelector } from "react-redux";
-import { LOGOUT_REQUEST } from "../redux/types";
+import { LOGOUT_REQUEST, POST_WRITE_REQUEST } from "../redux/types";
 
 const AppNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,14 +38,18 @@ const AppNavbar = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-  const addPostClick = () => {};
+  const addPostClick = () => {
+    dispatch({
+      type: POST_WRITE_REQUEST,
+    });
+  };
   const authLink = (
     <>
       <NavItem>
         {userRole === "MainOwner" ? (
           <Form>
             <Link
-              to="post"
+              to="/post"
               className="btn btn-sucess block text-white px-3"
               onClick={addPostClick}
             >

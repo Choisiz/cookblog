@@ -17,8 +17,8 @@ const MyRouter = () => {
       <Container id="main-body" className="col-md-8">
         <Switch>
           <Route path="/" exact component={PostCard} />
-          <Route path="/posts" exact component={PostWrite} />
-          <Route path="/posts/:id" exact component={PostDetail} />
+          <Route path="/post" exact component={PostWrite} />
+          <Route path="/post/:id" exact component={PostDetail} />
           <Route
             path="/posts/category/:categoryName"
             exact

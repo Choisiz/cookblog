@@ -2,11 +2,15 @@ import {
   POST_LOADING_FAIL,
   POST_LOADING_REQUEST,
   POST_LOADING_SUCESS,
+  POST_WRITE_FAIL,
+  POST_WRITE_REQUEST,
+  POST_WRITE_SUCESS,
 } from "../types";
 
 const initialState = {
   isAuthenticated: null,
   isLoading: false,
+  error: "",
   posts: [],
   postDetail: "",
   postCount: "",
@@ -36,6 +40,24 @@ const postReducer = (state = initialState, action) => {
     case POST_LOADING_FAIL:
       return {
         ...state,
+        isLoading: false,
+      };
+    case POST_WRITE_REQUEST:
+      return {
+        ...state,
+        posts: [],
+        isLoading: true,
+      };
+    case POST_WRITE_SUCESS:
+      return {
+        ...state,
+        posts: [],
+        isLoading: false,
+      };
+    case POST_WRITE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
         isLoading: false,
       };
     default:

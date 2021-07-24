@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const CategorySchema = new mongoose.Schema({
   categoryName: {
     type: String,
-    default: "없음",
+    default: "미분류",
   },
   posts: [
     {

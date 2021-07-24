@@ -6,6 +6,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor"
 import { editorConfiguration } from "../../components/editor/EditorConfig";
 import Myinit from "../../components/editor/uploadEditor";
 import dotenv from "dotenv";
+import { POST_UPLOAD_REQUEST } from "../../redux/types";
 dotenv.config();
 const PostWrite = () => {
   const { isAuthenticated } = useSelector((state) => state.login);
@@ -26,15 +27,20 @@ const PostWrite = () => {
   const onSubmit = async (e) => {
     await e.preventDefault();
     const { title, contents, fileUrl, category } = form;
+    const token = localStorage.getItem("token");
+    const body = { title, contents, fileUrl, category };
+    console.log("body", body);
+    dispatch({
+      type: POST_UPLOAD_REQUEST,
+      payload: body,
+    });
   };
 
   const getdataFormCKEditor = (event, editor) => {
     const data = editor.getData(); //CKEdit5 함수: 데이터 호출
-    console.log(data);
     //내용중 이미지만 요청
     if (data && data.match("<img src=")) {
       const image_start = data.indexOf("<img src="); //첫번째 이미지만
-      console.log("image_start", image_start);
       let image_end = "";
       let ext_name_find = "";
       let result_img_Url = "";
@@ -43,7 +49,6 @@ const PostWrite = () => {
       for (let i = 0; i < ext_name.length; i++) {
         //이미지 이름에서 정의한 확장자가 존재시
         if (data.match(ext_name[i])) {
-          console.log(data.indexOf(`${ext_name[i]}`));
           ext_name_find = ext_name[i];
           image_end = data.indexOf(`${ext_name[i]}`);
         }

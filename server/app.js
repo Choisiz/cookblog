@@ -32,7 +32,6 @@ mongoose
   .catch((e) => console.log("DB연결에러:", e));
 
 //router
-app.get("/");
 app.use("/api/post", postRoute);
 app.use("/api/user", userRoute);
 app.use("/api/login", loginRoute);

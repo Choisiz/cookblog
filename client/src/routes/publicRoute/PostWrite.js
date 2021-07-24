@@ -28,7 +28,7 @@ const PostWrite = () => {
     await e.preventDefault();
     const { title, contents, fileUrl, category } = form;
     const token = localStorage.getItem("token");
-    const body = { title, contents, fileUrl, category };
+    const body = { title, contents, fileUrl, category, token };
     console.log("body", body);
     dispatch({
       type: POST_UPLOAD_REQUEST,

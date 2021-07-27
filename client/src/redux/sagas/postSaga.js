@@ -53,7 +53,6 @@ const uploadPostAPI = (payload) => {
 };
 
 function* uploadPost(action) {
-  console.log("여기에는 값이들어온다.", action);
   try {
     const result = yield call(uploadPostAPI, action.payload);
     console.log("try 구문 실패:", action.payload);
@@ -63,7 +62,6 @@ function* uploadPost(action) {
     });
     yield put(push(`/post/${result.data._id}`));
   } catch (e) {
-    console.log("여기에서 값이 호출됨");
     yield put({
       type: POST_UPLOAD_FAIL,
       payload: e,

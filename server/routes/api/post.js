@@ -50,7 +50,6 @@ router.post("/image", uploadS3.array("upload", 5), async (req, res, next) => {
       url: req.files.map((v) => v.location),
     });
   } catch (e) {
-    console.log("www");
     res.json({
       uploaded: false,
       url: null,
@@ -65,9 +64,8 @@ router.get("/", async (req, res) => {
 
 //포스트 작성
 router.post("/", auth, uploadS3.none(), async (req, res, next) => {
-  console.log("findResult:");
   try {
-    const { title, contents, fileUrl, category } = req.body;
+    const { title, contents, fileUrl, creator, category } = req.body;
     //req.body.title, req.body.contents ...
     const newPost = await Post.create({
       title,
@@ -81,16 +79,16 @@ router.post("/", auth, uploadS3.none(), async (req, res, next) => {
     const findResult = await Category.findOne({
       categoryName: category,
     });
-    console.log("findResult:", findResult);
     //없는 카테고리라면
     if (isNullOrUndefined(findResult)) {
       const newCategory = await Category.create({
         //새로운 카테고리 생성
         categoryName: category,
       });
+      console.log("카테고리", newCategory);
       //포스트id를 찾아 포스트와 새로운카테고리를 연결
       await Post.findByIdAndUpdate(newPost._id, {
-        $push: { catagory: newCategory._id },
+        $push: { category: newCategory._id },
       });
       //카테고리id를 찾아 카테고리와 새로운 포스터를 연결
       await Category.findByIdAndUpdate(newCategory._id, {
@@ -105,7 +103,7 @@ router.post("/", auth, uploadS3.none(), async (req, res, next) => {
         $push: { posts: newPost._id },
       });
       await Post.findByIdAndUpdate(newPost._id, {
-        catagory: findResult._id,
+        category: findResult._id,
       });
       await User.findByIdAndUpdate(req.user.id, {
         $push: { posts: newPost._id },
@@ -120,10 +118,13 @@ router.post("/", auth, uploadS3.none(), async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id)
-      .popuplate("creator", "name")
-      .popuplate({ path: category, select: "categoryName" });
+      .populate("creator", "name")
+      .populate({ path: "category", select: "categoryName" });
+    post.save();
+    console.log(post);
+    res.json(post);
   } catch (e) {
-    console.log("ddd", e);
+    console.log(e);
     next(e);
   }
 });

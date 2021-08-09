@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     default: moment().format("YYYY-MM-DD hh:mm:ss"),
   },
   comments: [
-    //1:n
+    //1:n 포스트 삭제시 댓글삭제를 우해 포스트id도 삽입
     {
       post_id: {
         type: mongoose.Schema.Types.ObjectId,

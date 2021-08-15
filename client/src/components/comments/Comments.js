@@ -37,7 +37,6 @@ const Comments = ({ id, userName, userId }) => {
   };
 
   const resetForm = useRef(null);
-  console.log("resetForm", resetForm);
 
   useEffect(() => {
     dispatch({

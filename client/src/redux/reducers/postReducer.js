@@ -2,6 +2,12 @@ import {
   POST_DETAIL_FAIL,
   POST_DETAIL_REQUEST,
   POST_DETAIL_SUCESS,
+  POST_EDIT_LOADING_FAIL,
+  POST_EDIT_LOADING_REQUEST,
+  POST_EDIT_LOADING_SUCESS,
+  POST_EDIT_UPLOAD_FAIL,
+  POST_EDIT_UPLOAD_REQUEST,
+  POST_EDIT_UPLOAD_SUCESS,
   POST_LOADING_FAIL,
   POST_LOADING_REQUEST,
   POST_LOADING_SUCESS,
@@ -26,6 +32,7 @@ const initialState = {
 };
 
 const postReducer = (state = initialState, action) => {
+  console.log("포스트리듀서:", action.payload);
   switch (action.type) {
     case POST_LOADING_REQUEST:
       return {
@@ -79,6 +86,42 @@ const postReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case POST_DETAIL_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+    case POST_EDIT_LOADING_REQUEST:
+      return {
+        ...state,
+        posts: [],
+        isLoading: true,
+      };
+    case POST_EDIT_LOADING_SUCESS:
+      return {
+        ...state,
+        postDetail: action.payload,
+        isLoading: false,
+      };
+    case POST_EDIT_LOADING_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+    case POST_EDIT_UPLOAD_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case POST_EDIT_UPLOAD_SUCESS:
+      return {
+        ...state,
+        posts: action.payload,
+        isAuthenticated: true,
+        isLoading: false,
+      };
+    case POST_EDIT_UPLOAD_FAIL:
       return {
         ...state,
         error: action.payload,

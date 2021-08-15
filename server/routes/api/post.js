@@ -192,6 +192,60 @@ router.delete("/:id", auth, async (req, res) => {
   }
   return res.json({ success: true });
 });
-dsds;
+
+//포스트 수정
+router.get("/:id/edit", auth, async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id)
+      .populate("creator", "name")
+      .populate({ path: "category", select: "categoryName" });
+    post.save();
+    res.json(post);
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
+router.post("/:id/edit", auth, async (req, res, next) => {
+  try {
+    const { title, contents, fileUrl, category, id } = req.body;
+    const editPost = await Post.findByIdAndUpdate(
+      id,
+      {
+        title,
+        contents,
+        fileUrl,
+        date: moment().format("YYYY-MM-DD hh:mm:ss"),
+      },
+      { new: true }
+    );
+    const findResult = await Category.findOne({
+      categoryName: category,
+    });
+    if (isNullOrUndefined(findResult)) {
+      const newCategory = await Category.create({
+        categoryName: category,
+      });
+      await Category.findByIdAndUpdate(newCategory._id, {
+        $push: { posts: editPost.id },
+      });
+      await Post.findByIdAndUpdate(editPost.id, {
+        category: newCategory._id,
+      });
+    } else {
+      await Category.findByIdAndUpdate(findResult._id, {
+        $push: { posts: editPost.id },
+      });
+      await Post.findByIdAndUpdate(editPost.id, {
+        category: findResult._id,
+      });
+    }
+    res.redirect(`/api/post/${editPost.id}`);
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
 
 export default router;

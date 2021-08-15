@@ -8,6 +8,12 @@ import {
   POST_DETAIL_FAIL,
   POST_DETAIL_REQUEST,
   POST_DETAIL_SUCESS,
+  POST_EDIT_LOADING_FAIL,
+  POST_EDIT_LOADING_REQUEST,
+  POST_EDIT_LOADING_SUCESS,
+  POST_EDIT_UPLOAD_FAIL,
+  POST_EDIT_UPLOAD_REQUEST,
+  POST_EDIT_UPLOAD_SUCESS,
   POST_LOADING_FAIL,
   POST_LOADING_REQUEST,
   POST_LOADING_SUCESS,
@@ -58,7 +64,6 @@ const uploadPostAPI = (payload) => {
 function* uploadPost(action) {
   try {
     const result = yield call(uploadPostAPI, action.payload);
-    console.log("try 구문 실패:", action.payload);
     yield put({
       type: POST_UPLOAD_SUCESS,
       payload: result.data,
@@ -85,9 +90,7 @@ const detailPostAPI = (payload) => {
 
 function* detailPost(action) {
   try {
-    console.log("detailaction:", action);
     const result = yield call(detailPostAPI, action.payload);
-    console.log("Detailresult:", result);
     yield put({
       type: POST_DETAIL_SUCESS,
       payload: result.data,
@@ -122,7 +125,6 @@ const DeletePostAPI = (payload) => {
 function* DeletePost(action) {
   try {
     const result = yield call(DeletePostAPI, action.payload);
-    console.log("성공", result);
     yield put({
       type: POST_DELETE_SUCESS,
       payload: result.data,
@@ -140,11 +142,84 @@ function* watchDeletePostPost() {
   yield takeEvery(POST_DELETE_REQUEST, DeletePost);
 }
 
+// Edit load Post
+const EditloadPostAPI = (payload) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const token = payload.token;
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  return axios.get(`/api/post/${payload.id}/edit`, config);
+};
+
+function* EditloadPost(action) {
+  try {
+    const result = yield call(EditloadPostAPI, action.payload);
+    yield put({
+      type: POST_EDIT_LOADING_SUCESS,
+      payload: result.data,
+    });
+  } catch (e) {
+    yield put({
+      type: POST_EDIT_LOADING_FAIL,
+      payload: e,
+    });
+    yield put(push("/"));
+  }
+}
+
+function* watchEditloadPost() {
+  yield takeEvery(POST_EDIT_LOADING_REQUEST, EditloadPost);
+}
+
+// Edit Upload Post
+const EditUploadPostAPI = (payload) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const token = payload.token;
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  console.log("payload", payload);
+  return axios.post(`/api/post/${payload.id}/edit`, payload, config);
+};
+
+function* EditUploadPost(action) {
+  try {
+    const result = yield call(EditUploadPostAPI, action.payload);
+    console.log("왜 안들어옴????", result);
+    yield put({
+      type: POST_EDIT_UPLOAD_SUCESS,
+      payload: result.data,
+    });
+    yield put(push(`/post/${result.data._id}`));
+  } catch (e) {
+    yield put({
+      type: POST_EDIT_UPLOAD_FAIL,
+      payload: e,
+    });
+    yield put(push("/"));
+  }
+}
+
+function* watchEditUploadPost() {
+  yield takeEvery(POST_EDIT_UPLOAD_REQUEST, EditUploadPost);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPost),
     fork(watchUploadPostPost),
     fork(watchDetailPostPost),
     fork(watchDeletePostPost),
+    fork(watchEditloadPost),
+    fork(watchEditUploadPost),
   ]);
 }

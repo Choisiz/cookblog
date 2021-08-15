@@ -16,7 +16,6 @@ const initialState = {
 };
 
 const commentReducer = (state = initialState, action) => {
-  console.log("action", action);
   switch (action.type) {
     case COMMENT_LOADING_REQUEST:
       return {

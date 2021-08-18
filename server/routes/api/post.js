@@ -60,7 +60,9 @@ router.post("/image", uploadS3.array("upload", 5), async (req, res, next) => {
 
 router.get("/", async (req, res) => {
   const postFindResult = await Post.find(); //find는 몽구스라이브러리
-  res.json(postFindResult);
+  const categoryFindResult = await Category.find();
+  const result = { postFindResult, categoryFindResult };
+  res.json(result);
 });
 
 //포스트 작성
@@ -206,7 +208,7 @@ router.get("/:id/edit", auth, async (req, res, next) => {
     next(e);
   }
 });
-
+//포스트 수정
 router.post("/:id/edit", auth, async (req, res, next) => {
   try {
     const { title, contents, fileUrl, category, id } = req.body;
@@ -242,6 +244,32 @@ router.post("/:id/edit", auth, async (req, res, next) => {
       });
     }
     res.redirect(`/api/post/${editPost.id}`);
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
+//$는 일반적인 몽구스 사용법이 아님
+//기본 베이스는 몽고db
+//몽고db에서는 $사용해서 정규표현식을 사용
+//기본적으로 몽구소와 몽고db는 섞어쓰지 않는게 좋다.
+//이유는 안될때가 있음
+//$regex: 쿼리의 패턴 일치 문자열 에 대한 정규식 기능을 제공
+//$options: "i"는 대소문 구문하지 않는 것
+router.get("/category/:categoryName", async (req, res, next) => {
+  try {
+    const result = await Category.findOne(
+      {
+        categoryName: {
+          $regex: req.params.categoryName,
+          $options: "i",
+        },
+      },
+      "posts"
+    ).populate({ path: "posts" });
+    console.log("result:", result);
+    res.send(result);
   } catch (e) {
     console.log(e);
     next(e);

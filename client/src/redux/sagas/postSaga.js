@@ -2,6 +2,9 @@ import axios from "axios";
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import {
+  CATEGORY_FIND_FAIL,
+  CATEGORY_FIND_REQUEST,
+  CATEGORY_FIND_SUCESS,
   POST_DELETE_FAIL,
   POST_DELETE_REQUEST,
   POST_DELETE_SUCESS,
@@ -30,7 +33,6 @@ const loadPostAPI = () => {
 function* loadPost() {
   try {
     const result = yield call(loadPostAPI);
-    console.log("포스트 작성사가:", result);
     yield put({
       type: POST_LOADING_SUCESS,
       payload: result.data,
@@ -158,7 +160,9 @@ const EditloadPostAPI = (payload) => {
 
 function* EditloadPost(action) {
   try {
+    console.log("왜 action????", action);
     const result = yield call(EditloadPostAPI, action.payload);
+    console.log("왜 result????", result);
     yield put({
       type: POST_EDIT_LOADING_SUCESS,
       payload: result.data,
@@ -187,14 +191,12 @@ const EditUploadPostAPI = (payload) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  console.log("payload", payload);
   return axios.post(`/api/post/${payload.id}/edit`, payload, config);
 };
 
 function* EditUploadPost(action) {
   try {
     const result = yield call(EditUploadPostAPI, action.payload);
-    console.log("왜 안들어옴????", result);
     yield put({
       type: POST_EDIT_UPLOAD_SUCESS,
       payload: result.data,
@@ -213,6 +215,31 @@ function* watchEditUploadPost() {
   yield takeEvery(POST_EDIT_UPLOAD_REQUEST, EditUploadPost);
 }
 
+//category
+const CategoryFindAPI = (payload) => {
+  console.log("사가", payload);
+  return axios.get(`/api/post/category/${encodeURIComponent(payload)}`);
+};
+
+function* CategoryFind(action) {
+  try {
+    const result = yield call(CategoryFindAPI, action.payload);
+    yield put({
+      type: CATEGORY_FIND_SUCESS,
+      payload: result.data,
+    });
+  } catch (e) {
+    yield put({
+      type: CATEGORY_FIND_FAIL,
+      payload: e,
+    });
+  }
+}
+
+function* watchCategoryFind() {
+  yield takeEvery(CATEGORY_FIND_REQUEST, CategoryFind);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPost),
@@ -221,5 +248,6 @@ export default function* postSaga() {
     fork(watchDeletePostPost),
     fork(watchEditloadPost),
     fork(watchEditUploadPost),
+    fork(watchCategoryFind),
   ]);
 }

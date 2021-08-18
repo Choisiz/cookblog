@@ -20,8 +20,6 @@ const AppNavbar = () => {
   const { isAuthenticated, user, userRole } = useSelector(
     (state) => state.login
   );
-  console.log("userRole:", userRole);
-  console.log("isAuthenticated:", isAuthenticated);
 
   const dispatch = useDispatch();
 

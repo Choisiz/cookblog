@@ -5,9 +5,11 @@ import { Helmet } from "react-helmet";
 import { Row, Spinner } from "reactstrap";
 import Spinners from "../../components/Spinners/Spinners";
 import Post from "../../components/post/Post";
+import Category from "../../components/post/Category";
 const PostCard = () => {
-  const { posts } = useSelector((state) => state.post);
-  console.log("posts", { posts });
+  const { posts, categoryFindResult, isLoading, postCount } = useSelector(
+    (state) => state.post
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
@@ -17,6 +19,9 @@ const PostCard = () => {
   return (
     <>
       <Helmet title="Home" />
+      <Row className="border-bottom border-top border-primary py-2 mb-3">
+        <Category posts={categoryFindResult} />
+      </Row>
       <Row>{posts ? <Post posts={posts} /> : Spinners}</Row>
     </>
   );

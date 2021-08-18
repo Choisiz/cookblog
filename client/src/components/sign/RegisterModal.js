@@ -24,7 +24,6 @@ const RegisterModal = () => {
   });
   const dispatch = useDispatch();
   const { errorMassage } = useSelector((state) => state.login);
-  console.log("errorMassage2:", errorMassage);
   useEffect(() => {
     try {
       setLocalMessage(errorMassage);
@@ -48,7 +47,6 @@ const RegisterModal = () => {
     e.preventDefault();
     const { name, email, password } = form;
     const newUser = { name, email, password };
-    console.log("newUser:", newUser);
     dispatch({
       type: REGISTER_REQUEST,
       payload: newUser,

@@ -23,7 +23,6 @@ const LoginModal = () => {
   });
   const dispatch = useDispatch();
   const { errorMassage } = useSelector((state) => state.login);
-  console.log("errorMassage:", errorMassage);
   useEffect(() => {
     try {
       setLocalMessage(errorMassage);

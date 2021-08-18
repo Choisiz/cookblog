@@ -8,7 +8,7 @@ import PostCard from "./publicRoute/PostCard";
 import PostWrite from "./publicRoute/PostWrite";
 import PostDetail from "./publicRoute/PostDetail";
 import Search from "./publicRoute/Search";
-import Category from "./publicRoute/Category";
+import CategoryResult from "./publicRoute/CategoryResult";
 import { EditRoute } from "./protectedRoute/protectedRoute";
 import PostEdit from "./publicRoute/PostEdit";
 const MyRouter = () => {
@@ -23,9 +23,9 @@ const MyRouter = () => {
           <Route path="/post/:id" exact component={PostDetail} />
           <EditRoute path="/post/:id/edit" exact component={PostEdit} />
           <Route
-            path="/posts/category/:categoryName"
+            path="/post/category/:categoryName"
             exact
-            component={Category}
+            component={CategoryResult}
           />
           <Route path="/search:searchTerm" exact component={Search} />
           <Redirect from="*" to="/" />

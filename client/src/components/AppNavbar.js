@@ -105,13 +105,11 @@ const AppNavbar = () => {
             hello blog
           </Link>
           <NavbarToggler onClick={handleToggle} />
-          <Collapse //클릭시 오픈(무너지다)
-            className="ml-auto d-flex justify-content-around"
-            isOpen={isOpen}
-            navbar
-          >
+          <Collapse isOpen={isOpen} navbar>
             <SearchInput isOpen={isOpen} />
-            <Nav navbar>{isAuthenticated ? authLink : guestLink}</Nav>
+            <Nav className="ml-auto d-felx justify-content-around" navbar>
+              {isAuthenticated ? authLink : guestLink}
+            </Nav>
           </Collapse>
         </Container>
       </Navbar>

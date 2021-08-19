@@ -14,6 +14,7 @@ import LoginModal from "../components/sign/LoginModal";
 import RegisterModal from "../components/sign/RegisterModal";
 import { useDispatch, useSelector } from "react-redux";
 import { LOGOUT_REQUEST, POST_WRITE_REQUEST } from "../redux/types";
+import SearchInput from "./search/searchInput";
 
 const AppNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,6 +110,7 @@ const AppNavbar = () => {
             isOpen={isOpen}
             navbar
           >
+            <SearchInput isOpen={isOpen} />
             <Nav navbar>{isAuthenticated ? authLink : guestLink}</Nav>
           </Collapse>
         </Container>

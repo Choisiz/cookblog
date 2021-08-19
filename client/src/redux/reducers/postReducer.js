@@ -17,6 +17,9 @@ import {
   POST_WRITE_FAIL,
   POST_WRITE_REQUEST,
   POST_WRITE_SUCESS,
+  SEARCH_FAIL,
+  SEARCH_REQUEST,
+  SEARCH_SUCESS,
 } from "../types";
 
 const initialState = {
@@ -30,19 +33,9 @@ const initialState = {
   creatorId: "",
   categoryFindResult: "",
   title: "",
-  searchBy: "",
+  search: "",
   searchResult: "",
 };
-//빈배열인 이유는 카테고리를 찾고
-//홈으로 넘어갈시
-//빈배열로 만들어주지 않는다면
-//카테고리에서 찾은 배열과
-//기존에 있던 홈에서 받던 배열이 겹쳐
-//포스트가 증가됨
-//즉 카테고리를 누를시 기존 홈에있던
-//포스트+ 찾은 카테고리가 증가됨
-//원래는 기존 포스트 없어지고
-//찾은 카테고리 포스트만 나타나야함
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
     case POST_LOADING_REQUEST:
@@ -155,6 +148,26 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         categoryFindResult: action.payload,
+        isLoading: false,
+      };
+    case SEARCH_REQUEST:
+      return {
+        ...state,
+        posts: [],
+        search: action.payload,
+        isLoading: true,
+      };
+    case SEARCH_SUCESS:
+      return {
+        ...state,
+        search: action.payload,
+        searchResult: action.payload,
+        isLoading: false,
+      };
+    case SEARCH_FAIL:
+      return {
+        ...state,
+        searchResult: action.payload,
         isLoading: false,
       };
     default:

@@ -23,6 +23,9 @@ import {
   POST_UPLOAD_FAIL,
   POST_UPLOAD_REQUEST,
   POST_UPLOAD_SUCESS,
+  SEARCH_FAIL,
+  SEARCH_REQUEST,
+  SEARCH_SUCESS,
 } from "../types";
 
 //load Post
@@ -217,7 +220,6 @@ function* watchEditUploadPost() {
 
 //category
 const CategoryFindAPI = (payload) => {
-  console.log("사가", payload);
   return axios.get(`/api/post/category/${encodeURIComponent(payload)}`);
 };
 
@@ -240,6 +242,33 @@ function* watchCategoryFind() {
   yield takeEvery(CATEGORY_FIND_REQUEST, CategoryFind);
 }
 
+//search
+const SearchResultAPI = (payload) => {
+  return axios.get(`/api/search/${encodeURIComponent(payload)}`);
+};
+
+function* SearchResult(action) {
+  try {
+    const result = yield call(SearchResultAPI, action.payload);
+
+    yield put({
+      type: SEARCH_SUCESS,
+      payload: result.data,
+    });
+    yield put(push(`/search/${encodeURIComponent(action.payload)}`));
+  } catch (e) {
+    yield put({
+      type: SEARCH_FAIL,
+      payload: e,
+    });
+    yield put(push("/"));
+  }
+}
+
+function* watchSearchResult() {
+  yield takeEvery(SEARCH_REQUEST, SearchResult);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPost),
@@ -249,5 +278,6 @@ export default function* postSaga() {
     fork(watchEditloadPost),
     fork(watchEditUploadPost),
     fork(watchCategoryFind),
+    fork(watchSearchResult),
   ]);
 }

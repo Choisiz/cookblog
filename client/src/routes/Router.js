@@ -27,7 +27,7 @@ const MyRouter = () => {
             exact
             component={CategoryResult}
           />
-          <Route path="/search:searchTerm" exact component={Search} />
+          <Route path="/search/:searchTerm" exact component={Search} />
           <Redirect from="*" to="/" />
         </Switch>
       </Container>

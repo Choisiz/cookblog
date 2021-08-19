@@ -7,6 +7,7 @@ import config from "./config";
 import postRoute from "./routes/api/post";
 import userRoute from "./routes/api/user";
 import loginRoute from "./routes/api/login";
+import searchRoute from "./routes/api/search";
 import cors from "cors";
 const app = express();
 const { MONGO_URI } = config;
@@ -35,4 +36,5 @@ mongoose
 app.use("/api/post", postRoute);
 app.use("/api/user", userRoute);
 app.use("/api/login", loginRoute);
+app.use("/api/search", searchRoute);
 export default app;

@@ -1,5 +1,4 @@
 import {
-  //로그인,로그이웃,에러
   LOGIN_REQUEST,
   LOGIN_SUCESS,
   LOGIN_FAIL,
@@ -15,9 +14,11 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCESS,
   REGISTER_FAIL,
+  PASSWORD_EDIT_REQUEST,
+  PASSWORD_EDIT_SUCESS,
+  PASSWORD_EDIT_FAIL,
 } from "../types";
 
-//초기값세팅
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
@@ -27,21 +28,20 @@ const initialState = {
   userName: "",
   userRole: "",
   errorMassage: "",
-  sucessMassage: "",
+  successMassage: "",
+  preMessage: "",
 };
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    //로그인, 로그아웃, 회원가입
+    //login, logout, register
     case REGISTER_REQUEST:
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
       return {
         ...state,
-        //처음에는 기존의 상태값을 복사하자
-        //(왜냐하면 기존것과 비교해 바뀐것만 반영해야하므로)
         errorMassage: "",
-        isLoading: true, //스피너 표시
+        isLoading: true,
       };
     case REGISTER_SUCESS:
     case LOGIN_SUCESS:
@@ -55,7 +55,6 @@ const loginReducer = (state = initialState, action) => {
         userRole: action.payload.user.role,
         errorMassage: "",
       };
-
     case LOGOUT_SUCESS:
       localStorage.removeItem("token");
       return {
@@ -82,13 +81,12 @@ const loginReducer = (state = initialState, action) => {
         userRole: null,
         errorMassage: action.payload.data.message,
       };
-    //유저로딩
+    //loading user
     case USER_LOADING_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-
     case USER_LOADING_SUCESS:
       return {
         ...state,
@@ -99,7 +97,6 @@ const loginReducer = (state = initialState, action) => {
         userName: action.payload.name,
         userRole: action.payload.role,
       };
-
     case USER_LOADING_FAIL:
       return {
         ...state,
@@ -108,25 +105,46 @@ const loginReducer = (state = initialState, action) => {
         isLoading: false,
         userRole: "",
       };
-
-    //에러
+    //edit password
+    case PASSWORD_EDIT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case PASSWORD_EDIT_SUCESS:
+      return {
+        ...state,
+        isLoading: false,
+        successMassage: action.payload.successMassage,
+        errorMassage: "",
+        preMessage: "",
+      };
+    case PASSWORD_EDIT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        successMassage: "",
+        errorMassage: action.payload.errorMassage,
+        preMessage: action.payload.Matchessage,
+      };
+    //clear error
     case CLEAR_ERROR_REQUEST:
       return {
         ...state,
-        errorMassage: null,
       };
-
     case CLEAR_ERROR_SUCESS:
       return {
         ...state,
-        errorMassage: null,
+        errorMassage: "",
+        preMessage: "",
       };
-
     case CLEAR_ERROR_FAIL:
       return {
         ...state,
-        errorMassage: null,
+        errorMassage: "",
+        preMessage: "",
       };
+    //default
     default:
       return state;
   }

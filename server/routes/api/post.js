@@ -41,8 +41,7 @@ const uploadS3 = multer({
   limits: { fileSize: 100 * 1024 * 1024 },
 });
 
-//route POST api/post/image
-//포스트 업로드
+//upload post
 router.post("/image", uploadS3.array("upload", 5), async (req, res, next) => {
   try {
     console.log(req.files.map((v) => v.location));
@@ -65,7 +64,7 @@ router.get("/", async (req, res) => {
   res.json(result);
 });
 
-//포스트 작성
+//write post
 router.post("/", auth, uploadS3.none(), async (req, res, next) => {
   try {
     const { title, contents, fileUrl, creator, category } = req.body;
@@ -118,7 +117,7 @@ router.post("/", auth, uploadS3.none(), async (req, res, next) => {
   }
 });
 
-//포스트 디테일
+//detail post
 router.get("/:id", async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id)
@@ -132,7 +131,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-//댓글
+//comment
 router.get("/:id/comments", async (req, res) => {
   try {
     const comment = await Post.findById(req.params.id).populate({
@@ -144,7 +143,7 @@ router.get("/:id/comments", async (req, res) => {
     console.log(e);
   }
 });
-//댓글 업로드
+//upload comment
 router.post("/:id/comments", async (req, res, next) => {
   //const { title, contents, fileUrl, creator, category } = req.body;
   const newComment = await Comment.create({
@@ -174,7 +173,7 @@ router.post("/:id/comments", async (req, res, next) => {
   }
 });
 
-//포스트 삭제
+//delete post
 router.delete("/:id", auth, async (req, res) => {
   await Post.deleteMany({ _id: req.params.id });
   await Comment.deleteMany({ post: req.params.id });
@@ -195,7 +194,7 @@ router.delete("/:id", auth, async (req, res) => {
   return res.json({ success: true });
 });
 
-//포스트 수정
+//edit post
 router.get("/:id/edit", auth, async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id)
@@ -208,7 +207,8 @@ router.get("/:id/edit", auth, async (req, res, next) => {
     next(e);
   }
 });
-//포스트 수정
+
+//edit post
 router.post("/:id/edit", auth, async (req, res, next) => {
   try {
     const { title, contents, fileUrl, category, id } = req.body;
@@ -250,13 +250,7 @@ router.post("/:id/edit", auth, async (req, res, next) => {
   }
 });
 
-//$는 일반적인 몽구스 사용법이 아님
-//기본 베이스는 몽고db
-//몽고db에서는 $사용해서 정규표현식을 사용
-//기본적으로 몽구소와 몽고db는 섞어쓰지 않는게 좋다.
-//이유는 안될때가 있음
-//$regex: 쿼리의 패턴 일치 문자열 에 대한 정규식 기능을 제공
-//$options: "i"는 대소문 구문하지 않는 것
+//category
 router.get("/category/:categoryName", async (req, res, next) => {
   try {
     const result = await Category.findOne(

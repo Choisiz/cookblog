@@ -24,6 +24,7 @@ const RegisterModal = () => {
   });
   const dispatch = useDispatch();
   const { errorMassage } = useSelector((state) => state.login);
+
   useEffect(() => {
     try {
       setLocalMessage(errorMassage);
@@ -31,18 +32,21 @@ const RegisterModal = () => {
       console.log(e);
     }
   }, [errorMassage]);
+
   const handleToggle = () => {
     dispatch({
       type: CLEAR_ERROR_REQUEST,
     });
     setModal(!modal);
   };
+
   const onChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
     const { name, email, password } = form;

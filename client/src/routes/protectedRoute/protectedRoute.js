@@ -28,3 +28,28 @@ export const EditRoute = ({ component: Component, ...rest }) => {
     />
   );
 };
+
+export const ProfileRoute = ({ component: Component, ...rest }) => {
+  const { userName } = useSelector((state) => state.login);
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        if (props.match.params.userName === userName) {
+          return <Component {...props} />;
+        } else {
+          return (
+            <Redirect
+              to={{
+                pathname: "/",
+                state: {
+                  from: props.location,
+                },
+              }}
+            />
+          );
+        }
+      }}
+    />
+  );
+};

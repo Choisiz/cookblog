@@ -14,6 +14,7 @@ import {
 } from "../../redux/types";
 import { editorConfiguration } from "../../components/editor/EditorConfig";
 import Comments from "../../components/comments/Comments";
+
 const PostDetail = (req) => {
   const dispatch = useDispatch();
   const { postDetail, creatorId, title, isLoading } = useSelector(
@@ -21,6 +22,7 @@ const PostDetail = (req) => {
   );
   const { userId, userName } = useSelector((state) => state.login);
   const { comments } = useSelector((state) => state.comment);
+
   useEffect(() => {
     dispatch({
       type: POST_DETAIL_REQUEST,
@@ -32,6 +34,7 @@ const PostDetail = (req) => {
       payload: localStorage.getItem("token"),
     });
   }, []);
+
   const onDeleteClick = () => {
     dispatch({
       type: POST_DELETE_REQUEST,

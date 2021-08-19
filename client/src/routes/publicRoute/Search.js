@@ -6,9 +6,10 @@ import Post from "../../components/post/Post";
 import { SEARCH_REQUEST } from "../../redux/types";
 
 const Search = () => {
+  const { searchResult } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   let { searchTerm } = useParams();
-  const { searchResult } = useSelector((state) => state.post);
+
   useEffect(() => {
     if (searchTerm) {
       dispatch({
@@ -17,6 +18,7 @@ const Search = () => {
       });
     }
   }, [dispatch, searchTerm]);
+
   return (
     <div>
       <h1>검색결과: "{searchTerm}"</h1>

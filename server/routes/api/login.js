@@ -7,11 +7,7 @@ import User from "../../models/user";
 const router = express.Router();
 const { JWT_SECRET } = config;
 
-//@router   #POST    #api/login
-//@desc     #login   #user
-//@access   #Public
-
-//로그인
+//login
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -53,6 +49,7 @@ router.post("/", async (req, res) => {
   );
 });
 
+//logout
 router.post("/logout", (req, res) => {
   res.json("로그아웃 성공");
 });
@@ -69,4 +66,5 @@ router.get("/user", auth, async (req, res) => {
     res.status(400).json({ message: e.message });
   }
 });
+
 export default router;

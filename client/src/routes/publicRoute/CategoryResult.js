@@ -7,9 +7,9 @@ import { Row } from "reactstrap";
 
 const CategoryResult = () => {
   const dispatch = useDispatch();
-  //prams를 따로 떼올수 잇는
   let { categoryName } = useParams();
   const { categoryFindResult } = useSelector((state) => state.post);
+
   useEffect(() => {
     dispatch({
       type: CATEGORY_FIND_REQUEST,

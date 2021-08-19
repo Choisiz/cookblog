@@ -17,6 +17,7 @@ const PostEdit = () => {
     contents: "",
     fileUrl: "",
   });
+
   const dispatch = useDispatch();
 
   const onChange = (e) => {
@@ -31,9 +32,7 @@ const PostEdit = () => {
     const { title, contents, fileUrl, category } = form;
     const token = localStorage.getItem("token");
     const id = postDetail._id;
-
     const body = { title, contents, fileUrl, category, token, id };
-    console.log("body", body);
     dispatch({
       type: POST_EDIT_UPLOAD_REQUEST,
       payload: body,

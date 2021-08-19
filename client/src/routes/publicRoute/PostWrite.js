@@ -8,6 +8,7 @@ import Myinit from "../../components/editor/uploadEditor";
 import dotenv from "dotenv";
 import { POST_UPLOAD_REQUEST } from "../../redux/types";
 dotenv.config();
+
 const PostWrite = () => {
   const { isAuthenticated } = useSelector((state) => state.login);
   const [form, setForm] = useState({
@@ -15,8 +16,8 @@ const PostWrite = () => {
     contents: "",
     fileUrl: "",
   });
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const onChange = (e) => {
     setForm({
       ...form,
@@ -72,6 +73,7 @@ const PostWrite = () => {
       });
     }
   };
+
   return (
     <div>
       {isAuthenticated ? (

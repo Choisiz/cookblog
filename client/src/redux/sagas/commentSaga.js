@@ -9,7 +9,9 @@ import {
   COMMENT_UPLOAD_SUCESS,
 } from "../types";
 import { push } from "connected-react-router";
-//댓글읽기
+
+//==============load Comment=================
+
 const loadCommentAPI = (payload) => {
   return axios.get(`/api/post/${payload}/comments`);
 };
@@ -34,7 +36,7 @@ function* watchLoadComment() {
   yield takeEvery(COMMENT_LOADING_REQUEST, loadComment);
 }
 
-//댓글 업로드
+//==============upload Comment=================
 const uploadCommentAPI = (payload) => {
   const config = {
     headers: {
@@ -67,6 +69,8 @@ function* uploadComment(action) {
 function* watchUploadComment() {
   yield takeEvery(COMMENT_UPLOAD_REQUEST, uploadComment);
 }
+
+//==============export default=================
 
 export default function* commentSaga() {
   yield all([fork(watchLoadComment), fork(watchUploadComment)]);

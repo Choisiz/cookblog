@@ -4,8 +4,10 @@ import jwt from "jsonwebtoken";
 import User from "../../models/user";
 import config from "../../config/index";
 import auth from "../../middleware/auth";
+
 const router = express.Router();
 const { JWT_SECRET } = config;
+
 //전체 보기
 //get
 router.get("/", async (req, res) => {
@@ -19,7 +21,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//회원가입
+//register
 router.post("/", (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
@@ -69,6 +71,40 @@ router.post("/", (req, res) => {
       });
     });
   });
+});
+
+//edit password
+router.post("/:userName/profile", auth, async (req, res) => {
+  try {
+    const { prePassword, password, rePassword, userId } = req.body;
+    const result = await User.findById(userId, "password");
+    bcrypt.compare(prePassword, result.password).then((isMatch) => {
+      if (!isMatch) {
+        return res.status(400).json({
+          Matchessage: "비밀번호가 일치하지 않습니다",
+        });
+      } else {
+        if (password === rePassword) {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(password, salt, (err, hash) => {
+              if (err) throw err;
+              result.password = hash;
+              result.save();
+            });
+          });
+          res.status(200).json({
+            successMassage: "비밀번호 업데이트 성공",
+          });
+        } else {
+          res.status(400).json({
+            errorMassage: "비밀번호 업데이트 실패",
+          });
+        }
+      }
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 export default router;

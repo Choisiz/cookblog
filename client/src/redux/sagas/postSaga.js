@@ -28,7 +28,8 @@ import {
   SEARCH_SUCESS,
 } from "../types";
 
-//load Post
+//==============load Post=================
+
 const loadPostAPI = () => {
   return axios.get("/api/post");
 };
@@ -52,7 +53,8 @@ function* watchLoadPost() {
   yield takeEvery(POST_LOADING_REQUEST, loadPost);
 }
 
-//upload Post
+//==============upload Post=================
+
 const uploadPostAPI = (payload) => {
   const config = {
     headers: {
@@ -87,9 +89,9 @@ function* watchUploadPostPost() {
   yield takeEvery(POST_UPLOAD_REQUEST, uploadPost);
 }
 
-//Detail Post
+//==============Detail Post=================
+
 const detailPostAPI = (payload) => {
-  console.log("Detailpayload:", payload);
   return axios.get(`/api/post/${payload}`);
 };
 
@@ -113,7 +115,8 @@ function* watchDetailPostPost() {
   yield takeEvery(POST_DETAIL_REQUEST, detailPost);
 }
 
-//Delete Post
+//==============Delete Post=================
+
 const DeletePostAPI = (payload) => {
   const config = {
     headers: {
@@ -147,7 +150,8 @@ function* watchDeletePostPost() {
   yield takeEvery(POST_DELETE_REQUEST, DeletePost);
 }
 
-// Edit load Post
+//==============Edit Load Post=================
+
 const EditloadPostAPI = (payload) => {
   const config = {
     headers: {
@@ -163,9 +167,7 @@ const EditloadPostAPI = (payload) => {
 
 function* EditloadPost(action) {
   try {
-    console.log("왜 action????", action);
     const result = yield call(EditloadPostAPI, action.payload);
-    console.log("왜 result????", result);
     yield put({
       type: POST_EDIT_LOADING_SUCESS,
       payload: result.data,
@@ -183,7 +185,8 @@ function* watchEditloadPost() {
   yield takeEvery(POST_EDIT_LOADING_REQUEST, EditloadPost);
 }
 
-// Edit Upload Post
+//==============Edit Upload Post=================
+
 const EditUploadPostAPI = (payload) => {
   const config = {
     headers: {
@@ -218,7 +221,8 @@ function* watchEditUploadPost() {
   yield takeEvery(POST_EDIT_UPLOAD_REQUEST, EditUploadPost);
 }
 
-//category
+//==============category=================
+
 const CategoryFindAPI = (payload) => {
   return axios.get(`/api/post/category/${encodeURIComponent(payload)}`);
 };
@@ -242,7 +246,8 @@ function* watchCategoryFind() {
   yield takeEvery(CATEGORY_FIND_REQUEST, CategoryFind);
 }
 
-//search
+//==============search=================
+
 const SearchResultAPI = (payload) => {
   return axios.get(`/api/search/${encodeURIComponent(payload)}`);
 };
@@ -268,6 +273,8 @@ function* SearchResult(action) {
 function* watchSearchResult() {
   yield takeEvery(SEARCH_REQUEST, SearchResult);
 }
+
+//==============export default=================
 
 export default function* postSaga() {
   yield all([

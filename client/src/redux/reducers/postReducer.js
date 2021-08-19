@@ -38,6 +38,7 @@ const initialState = {
 };
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
+    //loading post
     case POST_LOADING_REQUEST:
       return {
         ...state,
@@ -57,6 +58,7 @@ const postReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+    //write post
     case POST_WRITE_REQUEST:
       return {
         ...state,
@@ -75,6 +77,7 @@ const postReducer = (state = initialState, action) => {
         error: action.payload,
         isLoading: false,
       };
+    //detail post
     case POST_DETAIL_REQUEST:
       return {
         ...state,
@@ -96,6 +99,7 @@ const postReducer = (state = initialState, action) => {
         error: action.payload,
         isLoading: false,
       };
+    //edit loading post
     case POST_EDIT_LOADING_REQUEST:
       return {
         ...state,
@@ -114,6 +118,7 @@ const postReducer = (state = initialState, action) => {
         error: action.payload,
         isLoading: false,
       };
+    //edit upLoading post
     case POST_EDIT_UPLOAD_REQUEST:
       return {
         ...state,
@@ -132,6 +137,7 @@ const postReducer = (state = initialState, action) => {
         error: action.payload,
         isLoading: false,
       };
+    //category
     case CATEGORY_FIND_REQUEST:
       return {
         ...state,
@@ -150,6 +156,7 @@ const postReducer = (state = initialState, action) => {
         categoryFindResult: action.payload,
         isLoading: false,
       };
+    //search
     case SEARCH_REQUEST:
       return {
         ...state,
@@ -170,6 +177,7 @@ const postReducer = (state = initialState, action) => {
         searchResult: action.payload,
         isLoading: false,
       };
+    //default
     default:
       return state;
   }

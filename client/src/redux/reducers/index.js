@@ -6,7 +6,6 @@ import commentReducer from "./commentReducer";
 
 const createRootReducer = (history) =>
   combineReducers({
-    //router로 connectRouter를 이름지음
     router: connectRouter(history),
     login: loginReducer,
     post: postReducer,

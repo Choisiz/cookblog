@@ -11,11 +11,13 @@ const PostCard = () => {
     (state) => state.post
   );
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch({
       type: POST_LOADING_REQUEST,
     });
   }, [dispatch]);
+
   return (
     <>
       <Helmet title="Home" />

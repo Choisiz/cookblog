@@ -23,7 +23,6 @@ const AppNavbar = () => {
   );
 
   const dispatch = useDispatch();
-
   const onLogout = useCallback(() => {
     dispatch({
       type: LOGOUT_REQUEST,
@@ -37,11 +36,13 @@ const AppNavbar = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+
   const addPostClick = () => {
     dispatch({
       type: POST_WRITE_REQUEST,
     });
   };
+
   const authLink = (
     <>
       <NavItem>
@@ -62,7 +63,7 @@ const AppNavbar = () => {
       <NavItem className="d-flex justify-conntent-center">
         <Form className="col mt-2">
           {user && user.name ? (
-            <Link>
+            <Link to={`/user/${user.name}/profile`}>
               <Button outline color="light" className="px-3" block>
                 <strong>{user ? `Welcome ${user.name}` : ""}</strong>
               </Button>

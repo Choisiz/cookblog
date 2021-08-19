@@ -10,6 +10,9 @@ import {
   LOGOUT_FAIL,
   LOGOUT_REQUEST,
   LOGOUT_SUCESS,
+  PASSWORD_EDIT_FAIL,
+  PASSWORD_EDIT_REQUEST,
+  PASSWORD_EDIT_SUCESS,
   REGISTER_FAIL,
   REGISTER_REQUEST,
   REGISTER_SUCESS,
@@ -18,18 +21,15 @@ import {
   USER_LOADING_SUCESS,
 } from "../types";
 
-//==============로그인=================
+//==============login=================
 
 //login api 통신
 const loginUserAPI = (loginData) => {
-  console.log("loginData:", loginData);
   const config = {
     Headers: {
       "Content-Type": "application/json",
     },
   };
-  // api/login은 server단을 확인해보자(app.js)
-  // loginData는 req,  config는 res
   return axios.post("api/login", loginData, config);
 };
 
@@ -37,7 +37,6 @@ const loginUserAPI = (loginData) => {
 function* loginUser(action) {
   try {
     const result = yield call(loginUserAPI, action.payload);
-    console.log(result);
     yield put({
       type: LOGIN_SUCESS,
       payload: result.data,
@@ -55,7 +54,7 @@ function* watchLoginUser() {
   yield takeEvery(LOGIN_REQUEST, loginUser);
 }
 
-//==============로그아웃=================
+//==============logout=================
 
 function* logoutUser(action) {
   try {
@@ -74,7 +73,7 @@ function* watchLogoutUser() {
   yield takeEvery(LOGOUT_REQUEST, logoutUser);
 }
 
-//==============회원가입=================
+//==============register=================
 
 const registerUserAPI = (req) => {
   return axios.post("api/user", req);
@@ -83,7 +82,6 @@ const registerUserAPI = (req) => {
 function* registerUser(action) {
   try {
     const result = yield call(registerUserAPI, action.payload);
-    console.log(result, "RegisterUser Data");
     yield put({
       type: REGISTER_SUCESS,
       payload: result.data,
@@ -100,10 +98,9 @@ function* watchregisterUser() {
   yield takeEvery(REGISTER_REQUEST, registerUser);
 }
 
-//==============유저로딩=================
+//==============userLoading=================
 
 const userLoadingAPI = (token) => {
-  console.log("ddssss:", token);
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -153,6 +150,43 @@ function* watchClearError() {
   yield takeEvery(CLEAR_ERROR_REQUEST, clearError);
 }
 
+//==============passwordEdit=================
+
+const passwordEditAPI = (payload) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const token = payload.token;
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  return axios.post(`api/user/${payload.userName}/profile`, payload, config);
+};
+
+function* passwordEdit(action) {
+  try {
+    const result = yield call(passwordEditAPI, action.payload);
+    yield put({
+      type: PASSWORD_EDIT_SUCESS,
+      payload: result.data,
+    });
+  } catch (e) {
+    console.log("??", e.response);
+    yield put({
+      type: PASSWORD_EDIT_FAIL,
+      payload: e.response.data,
+    });
+  }
+}
+
+function* watchPasswordEdit() {
+  yield takeEvery(PASSWORD_EDIT_REQUEST, passwordEdit);
+}
+
 //==============export default=================
 
 export default function* loginSaga() {
@@ -162,5 +196,6 @@ export default function* loginSaga() {
     fork(watchregisterUser),
     fork(watchUserLoading),
     fork(watchClearError),
+    fork(watchPasswordEdit),
   ]);
 }

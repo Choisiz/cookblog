@@ -17,6 +17,7 @@ const initialState = {
 
 const commentReducer = (state = initialState, action) => {
   switch (action.type) {
+    //loading comment
     case COMMENT_LOADING_REQUEST:
       return {
         ...state,
@@ -33,6 +34,7 @@ const commentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+    //upLoading comment
     case COMMENT_UPLOAD_REQUEST:
       return {
         ...state,
@@ -51,6 +53,7 @@ const commentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+    //default
     default:
       return state;
   }

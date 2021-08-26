@@ -43,7 +43,6 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        errorMassage: "",
       };
     case POST_LOADING_SUCESS:
       return {
@@ -51,6 +50,7 @@ const postReducer = (state = initialState, action) => {
         //기존 포스터 -> 최신
         posts: [...state.posts, ...action.payload.postFindResult],
         categoryFindResult: action.payload.categoryFindResult,
+        postCount: action.payload.postCount,
         isLoading: false,
       };
     case POST_LOADING_FAIL:
@@ -68,7 +68,6 @@ const postReducer = (state = initialState, action) => {
     case POST_WRITE_SUCESS:
       return {
         ...state,
-        posts: [],
         isLoading: false,
       };
     case POST_WRITE_FAIL:

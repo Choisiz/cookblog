@@ -57,11 +57,20 @@ router.post("/image", uploadS3.array("upload", 5), async (req, res, next) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  const postFindResult = await Post.find(); //find는 몽구스라이브러리
-  const categoryFindResult = await Category.find();
-  const result = { postFindResult, categoryFindResult };
-  res.json(result);
+router.get("/skip/:skip", async (req, res) => {
+  try {
+    const postCount = await Post.countDocuments();
+    const postFindResult = await Post.find()
+      .skip(Number(req.params.skip))
+      .limit(6)
+      .sort({ date: -1 });
+    const categoryFindResult = await Category.find();
+    const result = { postFindResult, categoryFindResult, postCount };
+    res.json(result);
+  } catch (e) {
+    console.log(e);
+    res.json({ message: "포스트가 존재하지 않습니다" });
+  }
 });
 
 //write post
@@ -123,6 +132,7 @@ router.get("/:id", async (req, res, next) => {
     const post = await Post.findById(req.params.id)
       .populate("creator", "name")
       .populate({ path: "category", select: "categoryName" });
+    post.views += 1;
     post.save();
     res.json(post);
   } catch (e) {

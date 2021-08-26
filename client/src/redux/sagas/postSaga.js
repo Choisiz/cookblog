@@ -30,13 +30,13 @@ import {
 
 //==============load Post=================
 
-const loadPostAPI = () => {
-  return axios.get("/api/post");
+const loadPostAPI = (payload) => {
+  return axios.get(`api/post/skip/${payload}`);
 };
 
-function* loadPost() {
+function* loadPost(action) {
   try {
-    const result = yield call(loadPostAPI);
+    const result = yield call(loadPostAPI, action.payload);
     yield put({
       type: POST_LOADING_SUCESS,
       payload: result.data,

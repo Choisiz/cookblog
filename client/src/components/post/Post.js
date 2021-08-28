@@ -30,7 +30,7 @@ const Post = ({ posts }) => {
                         <span>
                           <FaEye></FaEye>
                           &nbsp;&nbsp;
-                          <span>{views}</span>
+                          <span>조회수: {views}</span>
                         </span>
                       </CardTitle>
                       <Row>

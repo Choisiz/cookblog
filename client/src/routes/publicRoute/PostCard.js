@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { POST_LOADING_REQUEST } from "../../redux/types";
 import { Helmet } from "react-helmet";
-import { Alert, Row } from "reactstrap";
-import Spinners from "../../components/Spinners/Spinners";
+import { Row, Alert } from "reactstrap";
+import { GrowingSpinner } from "../../components/Spinners/Spinners";
 import Post from "../../components/post/Post";
 import Category from "../../components/post/Category";
 const PostCard = () => {
@@ -65,9 +65,9 @@ const PostCard = () => {
       <Row className="border-bottom border-top border-primary py-2 mb-3">
         <Category posts={categoryFindResult} />
       </Row>
-      <Row>{posts ? <Post posts={posts} /> : Spinners}</Row>
+      <Row>{posts ? <Post posts={posts} /> : GrowingSpinner}</Row>
 
-      <div ref={lastPostElementRef}>{isLoading && Spinners}</div>
+      <div ref={lastPostElementRef}>{isLoading && GrowingSpinner}</div>
       {isLoading ? (
         ""
       ) : endMsg ? (

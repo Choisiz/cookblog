@@ -15,6 +15,7 @@ import {
   Input,
   Label,
 } from "reactstrap";
+import { MdLockOutline } from "react-icons/md";
 
 const Profile = () => {
   const { userId, errorMassage, successMassage, preMessage } = useSelector(
@@ -60,41 +61,65 @@ const Profile = () => {
     <>
       <Helmet title={`profile: ${userName} 프로필`} />
       <Col sm="12" md={{ size: 6, offset: 3 }}>
-        <Card>
+        <Card className="mt-5 mb-5">
           <CardHeader>
-            <strong>비밀번호 수정</strong>
+            <div className="d-flex justify-content-center mt-2 mb-3">
+              <div
+                style={{
+                  backgroundColor: "#FFCA2C",
+                  width: "45px",
+                  height: "45px",
+                  borderRadius: "25px",
+                  textAlign: "center",
+                }}
+              >
+                <MdLockOutline color="white" className="mt-2" size="30" />
+              </div>
+            </div>
+            <div className="text-center">
+              <strong style={{ fontSize: "25px" }}>개인정보 수정</strong>
+            </div>
           </CardHeader>
           <CardBody>
             <Form onSubmit={onSubmit}>
-              <FormGroup>
-                <Label for="title">기존 비밀번호</Label>
+              <FormGroup className="mb-2">
+                <Label className="mb-2" for="title">
+                  <strong>기존 비밀번호</strong>
+                </Label>
                 <Input
                   type="password"
                   name="prePassword"
                   id="prePassword"
-                  className="form-control mb-2"
+                  className="form-control mb-4"
                   onChange={onChange}
+                  placeholder="비밀번호를 입력하세요"
                 />
                 {preMessage ? <Alert color="danger">{preMessage}</Alert> : ""}
               </FormGroup>
-              <FormGroup>
-                <Label for="title">새 비밀번호</Label>
+              <FormGroup className="mb-2">
+                <Label className="mb-2" for="title">
+                  <strong>새 비밀번호</strong>
+                </Label>
                 <Input
                   type="password"
                   name="password"
                   id="password"
-                  className="form-control"
+                  className="form-control mb-4"
                   onChange={onChange}
+                  placeholder="새 비밀번호를 입력하세요"
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="title">확인 비밀번호</Label>
+                <Label className="mb-2" for="title">
+                  <strong>새 비밀번호 확인</strong>
+                </Label>
                 <Input
                   type="password"
                   name="rePassword"
                   id="rePassword"
-                  className="form-control mb-2"
+                  className="form-control mb-4"
                   onChange={onChange}
+                  placeholder="다시 비밀번호를 입력하세요"
                 />
                 {errorMassage ? (
                   <Alert color="danger">{errorMassage}</Alert>
@@ -103,11 +128,11 @@ const Profile = () => {
                 )}
               </FormGroup>
               <Button
-                color="success"
+                style={{ backgroundColor: "#1976d2" }}
                 block
-                className="mt-4 mb-4 col-md-3 offset-9"
+                className="mt-4 mb-4 w-100"
               >
-                제출
+                <strong>확인</strong>
               </Button>
               {successMassage ? (
                 <Alert color="success">{successMassage}</Alert>

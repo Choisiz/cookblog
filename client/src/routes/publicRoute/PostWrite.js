@@ -79,35 +79,46 @@ const PostWrite = () => {
       {isAuthenticated ? (
         <Form onSubmit={onSubmit}>
           <FormGroup className="mb-3">
-            <Label for="title">Title</Label>
+            <Label className="mb-2" for="title">
+              <strong>제목</strong>
+            </Label>
             <Input
               type="text"
               name="title"
               id="title"
               className="form-control"
               onChange={onChange}
+              placeholder="제목을 입력하세요"
             />
           </FormGroup>
           <FormGroup className="mb-3">
-            <Label for="category">Category</Label>
+            <Label className="mb-2" for="category">
+              <strong>카테고리</strong>
+            </Label>
             <Input
               type="text"
               name="category"
               id="category"
               className="form-control"
               onChange={onChange}
+              placeholder="카테고리를 입력하세요"
             />
           </FormGroup>
           <FormGroup className="mb-3">
-            <Label for="content">Content</Label>
+            <Label className="mb-2" for="content">
+              <strong>본문</strong>
+            </Label>
             <CKEditor
               editor={ClassicEditor}
               config={editorConfiguration}
               onInit={Myinit}
               onBlur={getdataFormCKEditor}
             />
-            <Button color="success" className="mt-3 col-md-2 offset-md-10 mb-3">
-              완료
+            <Button
+              className="mt-5 mb-4 col-md-3"
+              style={{ backgroundColor: "#1976d2" }}
+            >
+              <strong>완료</strong>
             </Button>
           </FormGroup>
         </Form>

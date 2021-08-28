@@ -7,15 +7,13 @@ const Footer = () => {
   };
 
   return (
-    <div id="main-footer" className="text-center">
-      <Row>
-        <Col>
-          <p>
-            Copyright ⓒ copy <span> {thisYear()}</span>
-          </p>
-        </Col>
-      </Row>
-    </div>
+    <Row id="main-footer" className="text-center p-2">
+      <Col>
+        <p>
+          Copyright ⓒ copy <span> {thisYear()}</span>
+        </p>
+      </Col>
+    </Row>
   );
 };
 

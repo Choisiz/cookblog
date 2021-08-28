@@ -21,6 +21,8 @@ const AppNavbar = () => {
   const { isAuthenticated, user, userRole } = useSelector(
     (state) => state.login
   );
+  console.log("유저", userRole);
+  console.log("인증", isAuthenticated);
 
   const dispatch = useDispatch();
   const onLogout = useCallback(() => {
@@ -77,7 +79,7 @@ const AppNavbar = () => {
       </NavItem>
       <NavItem>
         <Form className="col">
-          <Link onClick={onLogout} tp="#">
+          <Link onClick={onLogout} to="#">
             <Button outline color="light" className="mt-2" block>
               LogOut
             </Button>
@@ -101,16 +103,15 @@ const AppNavbar = () => {
   return (
     <>
       <Navbar color="dark" dark expand="lg" className="sticky-top">
-        <Container>
-          <Link to="/" className="text-white text-decoration-none">
+        <Container className="col-md-8">
+          <Link to="/" className="col-md-3 text-white text-decoration-none">
             hello blog
           </Link>
+          <div className="col-md-3"></div>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
             <SearchInput isOpen={isOpen} />
-            <Nav className="ml-auto d-felx justify-content-around" navbar>
-              {isAuthenticated ? authLink : guestLink}
-            </Nav>
+            <Nav navbar>{isAuthenticated ? authLink : guestLink}</Nav>
           </Collapse>
         </Container>
       </Navbar>

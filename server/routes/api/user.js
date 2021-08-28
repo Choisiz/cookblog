@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     res.status(200).json(users);
   } catch (e) {
     console.log(e);
-    res.status(400).json({ sucess: false, message: e.message });
+    res.status(400).json({ message: e.message });
   }
 });
 

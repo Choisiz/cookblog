@@ -6,7 +6,7 @@ const { JWT_SECRET } = config;
 const auth = (req, res, next) => {
   const token = req.header("x-auth-token");
   if (!token) {
-    return res.status(400).json({ sucess: false, message: "토큰없음" });
+    return res.status(401).json({ sucess: false, message: "토큰없음" });
   }
   try {
     const decode = jwt.verify(token, JWT_SECRET);

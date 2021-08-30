@@ -1,29 +1,24 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Button, Badge } from "reactstrap";
 
-const Category = ({ posts }) => {
+const Categroy = ({ posts }) => {
   return (
-    <div className="d-flex flex-row">
+    <>
       {Array.isArray(posts)
         ? posts.map(({ _id, categoryName, posts }) => (
-            <div key={_id} className="mx-1 mt-1 my_category">
-              <Link
-                to={`/post/category/${categoryName}`}
-                className="text-dark text-decoration-none"
-              >
-                <span className="ml-1">
-                  <Button color="warning">
-                    {categoryName}
-                    <Badge color="light">{posts.length}</Badge>
-                  </Button>
-                </span>
+            <Fragment key={_id}>
+              <Link to={`/post/category/${categoryName}`}>
+                <Button color="warning" className="m-1">
+                  # {categoryName}
+                  <Badge>{posts.length}</Badge>
+                </Button>
               </Link>
-            </div>
+            </Fragment>
           ))
         : ""}
-    </div>
+    </>
   );
 };
 
-export default Category;
+export default Categroy;

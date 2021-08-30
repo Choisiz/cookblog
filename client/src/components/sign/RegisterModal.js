@@ -10,10 +10,14 @@ import {
   Label,
   Input,
   Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
 } from "reactstrap";
 import { CLEAR_ERROR_REQUEST, REGISTER_REQUEST } from "../../redux/types";
 import { MdLockOutline } from "react-icons/md";
-
+import { FaUser, FaLock } from "react-icons/fa";
+import { IoMdMail } from "react-icons/io";
 const RegisterModal = () => {
   const [modal, setModal] = useState(false);
   const [localMessage, setLocalMessage] = useState("");
@@ -60,7 +64,7 @@ const RegisterModal = () => {
   return (
     <div>
       <NavLink onClick={handleToggle} href="#">
-        Register
+        회원가입
       </NavLink>
       <Modal isOpen={modal} toggle={handleToggle}>
         <div className="d-flex justify-content-center mt-3 mb-3">
@@ -76,7 +80,7 @@ const RegisterModal = () => {
             <MdLockOutline color="white" className="mt-2" size="30" />
           </div>
         </div>
-        <div className="text-center mb-3">
+        <div className="text-center mb-4">
           <strong style={{ fontSize: "28px" }}>회원가입</strong>
         </div>
         <ModalBody>
@@ -84,39 +88,64 @@ const RegisterModal = () => {
           <Form onSubmit={onSubmit}>
             <FormGroup>
               <Label className="mb-2" for="password">
-                <strong>Name</strong>
+                <strong>이름</strong>
               </Label>
-              <Input
-                type="text"
-                name="name"
-                id="name"
-                placeholder="이름"
-                onChange={onChange}
-                className="mb-3"
-              />
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>
+                    <FaUser size="24" />
+                  </InputGroupText>
+                </InputGroupAddon>
+                <Input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="이름"
+                  onChange={onChange}
+                  className="mb-3"
+                />
+              </InputGroup>
+
               <Label className="mb-2" for="password">
-                <strong>Email</strong>
+                <strong>메일</strong>
               </Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Email"
-                onChange={onChange}
-                className="mb-3"
-              />
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>
+                    <IoMdMail size="24" />
+                  </InputGroupText>
+                </InputGroupAddon>
+                <Input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  onChange={onChange}
+                  className="mb-3"
+                />
+              </InputGroup>
               <Label className="mb-2" for="password">
-                <strong>Password</strong>
+                <strong>비밀번호</strong>
               </Label>
-              <Input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-                onChange={onChange}
-                className="mb-4"
-              />
-              <Button className="w-100" style={{ backgroundColor: "#1976d2" }}>
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>
+                    <FaLock size="24" />
+                  </InputGroupText>
+                </InputGroupAddon>
+                <Input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  onChange={onChange}
+                  className="mb-4"
+                />
+              </InputGroup>
+              <Button
+                className="w-100 mt-4 mb-2"
+                style={{ backgroundColor: "#1976d2" }}
+              >
                 <strong>회원가입</strong>
               </Button>
             </FormGroup>

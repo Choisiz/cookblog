@@ -232,9 +232,24 @@ router.post("/:id/edit", auth, async (req, res, next) => {
       },
       { new: true }
     );
+    console.log("--------------------------------");
+    console.log("해당 포스터 id", editPost.id);
+    const CategoryUpdate = await Category.findOneAndUpdate(
+      { posts: editPost.id },
+      { $pull: { posts: editPost.id } },
+      { new: true }
+    );
+    console.log("CategoryUpdate:", CategoryUpdate);
+    console.log("--------------------------------");
+    await Category.deleteOne({ posts: editPost.id });
+    if (CategoryUpdate.posts.length === 0) {
+      await Category.deleteMany({ _id: CategoryUpdate._id });
+    }
+    //카테고리db에 같은 이름
     const findResult = await Category.findOne({
       categoryName: category,
     });
+    //카테고리db에 같은 이름이 있으면
     if (isNullOrUndefined(findResult)) {
       const newCategory = await Category.create({
         categoryName: category,
@@ -272,7 +287,7 @@ router.get("/category/:categoryName", async (req, res, next) => {
       },
       "posts"
     ).populate({ path: "posts" });
-    console.log("result:", result);
+    console.log(result);
     res.send(result);
   } catch (e) {
     console.log(e);

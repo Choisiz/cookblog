@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { Fragment, useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { POST_LOADING_REQUEST } from "../../redux/types";
 import { Helmet } from "react-helmet";
@@ -60,11 +60,14 @@ const PostCard = () => {
   );
 
   return (
-    <>
+    <Fragment>
       <Helmet title="Home" />
-      <Row className="border-bottom border-top border-primary py-2 mb-3">
-        <Category posts={categoryFindResult} />
+      <Row>
+        <div className="border-top border-bottom border-dark py-2 mb-3">
+          <Category posts={categoryFindResult} />
+        </div>
       </Row>
+
       <Row>{posts ? <Post posts={posts} /> : GrowingSpinner}</Row>
 
       <div ref={lastPostElementRef}>{isLoading && GrowingSpinner}</div>
@@ -79,7 +82,7 @@ const PostCard = () => {
       ) : (
         ""
       )}
-    </>
+    </Fragment>
   );
 };
 

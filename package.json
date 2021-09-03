@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./server/server.js --exec babel-node --ignore './client'"
+    "dev": "nodemon ./server/server.js --exec babel-node --ignore './client'",
+    "build:server":"babel server --out-dir build"
   },
   "author": "",
   "license": "ISC",

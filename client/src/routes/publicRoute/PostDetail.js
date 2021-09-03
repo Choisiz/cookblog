@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
-import { Button, Col, Container, Row, Spinner } from "reactstrap";
+import { Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import BallonEditor from "@ckeditor/ckeditor5-editor-balloon/src/ballooneditor";
-import { BiTime } from "react-icons/bi";
 import { FaRegCommentDots, FaEye } from "react-icons/fa";
 import {
   POST_DELETE_REQUEST,
@@ -14,7 +13,7 @@ import {
 } from "../../redux/types";
 import { editorConfiguration } from "../../components/editor/EditorConfig";
 import Comments from "../../components/comments/Comments";
-
+import { GrowingSpinner } from "../../components/Spinners/Spinners";
 const PostDetail = (req) => {
   const dispatch = useDispatch();
   const { postDetail, creatorId, title, isLoading } = useSelector(
@@ -47,70 +46,92 @@ const PostDetail = (req) => {
 
   const EditButton = (
     <>
-      <Row className="d-flex justify-content-center pb-3">
-        <Col className="col-md-4 mr-md-3 justify-content-center">
-          <Link to="/" className="btn btn-primary btn-block col-md-12">
-            Home
-          </Link>
-        </Col>
-        <Col className="col-md-4 mr-md-3">
-          <Link
-            to={`/post/${req.match.params.id}/edit`}
-            className="btn btn-success btn-block col-md-12"
-          >
-            Edit post
-          </Link>
-        </Col>
-        <Col className="col-md-4">
-          <Button
-            className="btn-block btn-danger col-md-12"
-            onClick={onDeleteClick}
-          >
-            Delete
-          </Button>
-        </Col>
+      <Row className="mb-3 border-bottom">
+        {postDetail && postDetail.creator ? (
+          <div className="mt-5">
+            <div>
+              <div style={{ fontSize: "18px", color: "#6bacce" }}>
+                <strong>{postDetail.category.categoryName}</strong>
+              </div>
+              <div style={{ fontSize: "34px", marginLeft: "5px" }}>
+                {postDetail.title}
+              </div>
+            </div>
+            <div
+              className="align-items-center d-flex mb-2"
+              style={{
+                fontSize: "15px",
+                color: "#AAA7A7",
+              }}
+            >
+              <div className="m-1">{postDetail.creator.name}</div>
+              <div className="m-1"> | </div>
+              <div className="m-1">{postDetail.date}</div>
+              <div className="m-1"> | </div>
+              <Link
+                to={`/post/${req.match.params.id}/edit`}
+                className="m-1 text-decoration-none"
+                style={{ color: "#AAA7A7" }}
+              >
+                수정
+              </Link>
+              <div className="m-1"> | </div>
+              <Link
+                to=""
+                className="m-1 text-decoration-none"
+                style={{ color: "#AAA7A7" }}
+                onClick={onDeleteClick}
+              >
+                삭제
+              </Link>
+            </div>
+          </div>
+        ) : null}
       </Row>
     </>
   );
 
   const HomeButton = (
     <>
-      <Row className="d-flex justify-content-center pb-3">
-        <Col className="col-sm-12 com-md-3">
-          <Link to="/" className="btn btn-primary btn-block">
-            Home
-          </Link>
-        </Col>
+      <Row className="mb-3 border-bottom">
+        {postDetail && postDetail.creator ? (
+          <div className="mt-5">
+            <div>
+              <div style={{ fontSize: "18px", color: "#6bacce" }}>
+                <strong>{postDetail.category.categoryName}</strong>
+              </div>
+              <div style={{ fontSize: "34px", marginLeft: "5px" }}>
+                {postDetail.title}
+              </div>
+            </div>
+            <div
+              className="align-items-center d-flex mb-2"
+              style={{
+                fontSize: "15px",
+                color: "#AAA7A7",
+              }}
+            >
+              <div className="m-1">{postDetail.creator.name}</div>
+              <div className="m-1"> | </div>
+              <div className="m-1">{postDetail.date}</div>
+            </div>
+          </div>
+        ) : null}
       </Row>
     </>
   );
   const Body = (
-    <>
+    <Fragment>
       {userId === creatorId ? EditButton : HomeButton}
-      <Row className="border-bottom border-top border-primary p-3 mb-3 d-flex justify-content-between">
-        {postDetail && postDetail.creator ? (
-          <div className="d-flex flex-row justify-content-between">
-            <div className="font-weight-bold text-big">
-              <span className="m-3">
-                <Button color="info">{postDetail.category.categoryName}</Button>
-              </span>
-              {postDetail.title}
-            </div>
-            <div className="align-items-center">{postDetail.creator.name}</div>
-          </div>
-        ) : null}
-      </Row>
       {postDetail && postDetail.comments ? (
-        <>
+        <Fragment>
           <div className="d-flex justify-content-end align-items-baseline small">
-            <BiTime className="m-1"></BiTime>
-            <span className="m-1">{postDetail.date}</span>
-            <FaRegCommentDots className="m-1"></FaRegCommentDots>
+            <FaRegCommentDots className="m-1" />
             <span className="m-1">{postDetail.comments.length}</span>
-            <FaEye className="m-1"></FaEye>
+            <FaEye className="m-1" />
             <span className="m-1">{postDetail.views}</span>
           </div>
-          <Row className="mb-3">
+          <Row className="mb-5">
             <CKEditor
               editor={BallonEditor}
               data={postDetail.contents}
@@ -118,28 +139,30 @@ const PostDetail = (req) => {
               disabled="true"
             />
           </Row>
-          <Row>
-            <Container className="mb-3 border border-blue rounded">
+          <Row className="mt-5">
+            <div style={{ fontSize: "25px" }} className="mt-2 mb-2">
+              {postDetail.comments.length} Comments
+            </div>
+            <Container className="mb-3">
               {Array.isArray(comments)
                 ? comments.map(
                     ({ contents, creator, date, _id, creatorName }) => (
-                      <div key={_id}>
-                        {console.log({ _id })}
-                        <Row className="justify-content-between p-2">
-                          <div className="font-weight-bold">
+                      <div key={_id} className="border-top p-2">
+                        <div className="d-flex mb-1">
+                          <div
+                            style={{ fontSize: "20px", marginRight: "10px" }}
+                          >
                             {creatorName ? creatorName : creator}
                           </div>
-                          <div className="text-small">
-                            <span className="font-weight-bold">
-                              {date.split(" ")[0]}
-                            </span>
-                            <span className="font-weight-light">
-                              {" "}
-                              {date.split(" ")[1]}
-                            </span>
+                          <div
+                            className="d-flex align-items-center"
+                            style={{ fontSize: "12px", color: "#A7A7A7" }}
+                          >
+                            <span>{date.split(" ")[0]}</span>
+                            <span>{date.split(" ")[1]}</span>
                           </div>
-                        </Row>
-                        <Row className="p-2">
+                        </div>
+                        <Row style={{ fontSize: "16px" }}>
                           <div>{contents}</div>
                         </Row>
                       </div>
@@ -153,16 +176,16 @@ const PostDetail = (req) => {
               />
             </Container>
           </Row>
-        </>
+        </Fragment>
       ) : (
         <h1>hi</h1>
       )}
-    </>
+    </Fragment>
   );
   return (
     <div>
-      <Helmet title={`Post ${title}`} />
-      {isLoading === true ? Spinner : Body}
+      <Helmet title={`${title}`} />
+      {isLoading === true ? GrowingSpinner : Body}
     </div>
   );
 };

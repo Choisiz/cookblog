@@ -20,7 +20,7 @@ import {
   USER_LOADING_REQUEST,
   USER_LOADING_SUCESS,
 } from "../types";
-
+import { push } from "connected-react-router";
 //==============login=================
 
 //login api 통신
@@ -174,8 +174,8 @@ function* passwordEdit(action) {
       type: PASSWORD_EDIT_SUCESS,
       payload: result.data,
     });
+    yield put(push("/"));
   } catch (e) {
-    console.log("??", e.response);
     yield put({
       type: PASSWORD_EDIT_FAIL,
       payload: e.response.data,

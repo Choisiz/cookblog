@@ -23,8 +23,9 @@ router.get("/", async (req, res) => {
 
 //register
 router.post("/", (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  const { name, email, password, rePassword } = req.body;
+  console.log(rePassword);
+  if (!name || !email || !password || !rePassword) {
     return res
       .status(400)
       .json({ sucess: false, message: "모든 사항 체크필요" });
@@ -42,34 +43,38 @@ router.post("/", (req, res) => {
       name,
       email,
       password,
+      rePassword,
     });
-
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(newUser.password, salt, (err, hash) => {
-        if (err) throw err;
-        newUser.password = hash;
-        newUser.save().then((user) => {
-          //jwt.sign()인자들
-          //userInfo, secretKey, options,
-          jwt.sign(
-            { id: user.id },
-            JWT_SECRET,
-            { expiresIn: 3600 },
-            (err, token) => {
-              if (err) throw err;
-              res.json({
-                token,
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email,
-                },
-              });
-            }
-          );
+    if (password === rePassword) {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser.save().then((user) => {
+            //jwt.sign()인자들
+            //userInfo, secretKey, options,
+            jwt.sign(
+              { id: user.id },
+              JWT_SECRET,
+              { expiresIn: 3600 },
+              (err, token) => {
+                if (err) throw err;
+                res.json({
+                  token,
+                  user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                  },
+                });
+              }
+            );
+          });
         });
       });
-    });
+    } else {
+      res.status(400).json({ sucess: false, message: "비밀번호가 틀립니다" });
+    }
   });
 });
 
@@ -77,11 +82,14 @@ router.post("/", (req, res) => {
 router.post("/:userName/profile", auth, async (req, res) => {
   try {
     const { prePassword, password, rePassword, userId } = req.body;
+    if (!prePassword || !password || !rePassword) {
+      return res.status(400).json({ allMassage: "빈칸을 입력해주세요" });
+    }
     const result = await User.findById(userId, "password");
     bcrypt.compare(prePassword, result.password).then((isMatch) => {
       if (!isMatch) {
         return res.status(400).json({
-          Matchessage: "비밀번호가 일치하지 않습니다",
+          preMessage: "비밀번호가 일치하지 않습니다",
         });
       } else {
         if (password === rePassword) {
@@ -93,17 +101,18 @@ router.post("/:userName/profile", auth, async (req, res) => {
             });
           });
           res.status(200).json({
-            successMassage: "비밀번호 업데이트 성공",
+            successMassage: true,
           });
         } else {
           res.status(400).json({
-            errorMassage: "비밀번호 업데이트 실패",
+            errorMassage: "새 비밀번호를 확인해주세요",
           });
         }
       }
     });
   } catch (e) {
     console.log(e);
+    next(e);
   }
 });
 

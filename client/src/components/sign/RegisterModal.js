@@ -25,6 +25,7 @@ const RegisterModal = () => {
     name: "",
     email: "",
     password: "",
+    rePassword: "",
   });
   const dispatch = useDispatch();
   const { errorMassage } = useSelector((state) => state.login);
@@ -53,8 +54,8 @@ const RegisterModal = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password } = form;
-    const newUser = { name, email, password };
+    const { name, email, password, rePassword } = form;
+    const newUser = { name, email, password, rePassword };
     dispatch({
       type: REGISTER_REQUEST,
       payload: newUser,
@@ -100,7 +101,7 @@ const RegisterModal = () => {
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="이름"
+                  placeholder="이름을 입력하세요"
                   onChange={onChange}
                   className="mb-3"
                 />
@@ -124,6 +125,7 @@ const RegisterModal = () => {
                   className="mb-3"
                 />
               </InputGroup>
+
               <Label className="mb-2" for="password">
                 <strong>비밀번호</strong>
               </Label>
@@ -142,6 +144,26 @@ const RegisterModal = () => {
                   className="mb-4"
                 />
               </InputGroup>
+
+              <Label className="mb-2" for="password">
+                <strong>비밀번호 확인</strong>
+              </Label>
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>
+                    <FaLock size="24" />
+                  </InputGroupText>
+                </InputGroupAddon>
+                <Input
+                  type="password"
+                  name="rePassword"
+                  id="rePassword"
+                  placeholder="rePassword"
+                  onChange={onChange}
+                  className="mb-4"
+                />
+              </InputGroup>
+
               <Button
                 className="w-100 mt-4 mb-2"
                 style={{ backgroundColor: "#1976d2" }}

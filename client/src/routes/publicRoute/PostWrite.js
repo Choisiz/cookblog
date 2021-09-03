@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Form, FormGroup, Input, Button } from "reactstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import { editorConfiguration } from "../../components/editor/EditorConfig";
 import Myinit from "../../components/editor/uploadEditor";
 import dotenv from "dotenv";
 import { POST_UPLOAD_REQUEST } from "../../redux/types";
+import { Link } from "react-router-dom";
 dotenv.config();
 
 const PostWrite = () => {
@@ -75,13 +76,10 @@ const PostWrite = () => {
   };
 
   return (
-    <div>
+    <div className="mt-5">
       {isAuthenticated ? (
         <Form onSubmit={onSubmit}>
           <FormGroup className="mb-3">
-            <Label className="mb-2" for="title">
-              <strong>제목</strong>
-            </Label>
             <Input
               type="text"
               name="title"
@@ -89,12 +87,11 @@ const PostWrite = () => {
               className="form-control"
               onChange={onChange}
               placeholder="제목을 입력하세요"
+              style={{ border: "0" }}
             />
           </FormGroup>
+          <FormGroup className="border-top mb-5"></FormGroup>
           <FormGroup className="mb-3">
-            <Label className="mb-2" for="category">
-              <strong>카테고리</strong>
-            </Label>
             <Input
               type="text"
               name="category"
@@ -102,12 +99,11 @@ const PostWrite = () => {
               className="form-control"
               onChange={onChange}
               placeholder="카테고리를 입력하세요"
+              style={{ border: "0" }}
             />
           </FormGroup>
+          <FormGroup className="border-top mb-5"></FormGroup>
           <FormGroup className="mb-3">
-            <Label className="mb-2" for="content">
-              <strong>본문</strong>
-            </Label>
             <CKEditor
               editor={ClassicEditor}
               config={editorConfiguration}
@@ -115,11 +111,29 @@ const PostWrite = () => {
               onBlur={getdataFormCKEditor}
             />
             <Button
-              className="mt-5 mb-4 col-md-3"
-              style={{ backgroundColor: "#1976d2" }}
+              className="mt-5 mb-4"
+              style={{
+                marginRight: "10px",
+                backgroundColor: "#6BACCE",
+                borderRadius: "20px",
+                border: "0",
+                width: "150px",
+              }}
             >
-              <strong>완료</strong>
+              완료
             </Button>
+            <Link
+              to="/"
+              className="btn btn-warning mt-5 mb-4"
+              style={{
+                color: "white",
+                borderRadius: "20px",
+                border: "0",
+                width: "150px",
+              }}
+            >
+              취소
+            </Link>
           </FormGroup>
         </Form>
       ) : null}

@@ -96,7 +96,7 @@ router.post("/", auth, uploadS3.none(), async (req, res, next) => {
         //새로운 카테고리 생성
         categoryName: category,
       });
-      console.log("카테고리", newCategory);
+
       //포스트id를 찾아 포스트와 새로운카테고리를 연결
       await Post.findByIdAndUpdate(newPost._id, {
         $push: { category: newCategory._id },
@@ -163,7 +163,7 @@ router.post("/:id/comments", async (req, res, next) => {
     post: req.body.id,
     date: moment().format("YYYY-MM-DD hh:mm:ss"),
   });
-  console.log("newComment:", newComment);
+
   try {
     await Post.findByIdAndUpdate(req.body.id, {
       $push: { comments: newComment._id },
@@ -232,15 +232,13 @@ router.post("/:id/edit", auth, async (req, res, next) => {
       },
       { new: true }
     );
-    console.log("--------------------------------");
-    console.log("해당 포스터 id", editPost.id);
+
     const CategoryUpdate = await Category.findOneAndUpdate(
       { posts: editPost.id },
       { $pull: { posts: editPost.id } },
       { new: true }
     );
-    console.log("CategoryUpdate:", CategoryUpdate);
-    console.log("--------------------------------");
+
     await Category.deleteOne({ posts: editPost.id });
     if (CategoryUpdate.posts.length === 0) {
       await Category.deleteMany({ _id: CategoryUpdate._id });
@@ -287,7 +285,6 @@ router.get("/category/:categoryName", async (req, res, next) => {
       },
       "posts"
     ).populate({ path: "posts" });
-    console.log(result);
     res.send(result);
   } catch (e) {
     console.log(e);

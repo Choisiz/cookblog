@@ -7,9 +7,8 @@ const Post = ({ posts }) => {
     <Fragment>
       {Array.isArray(posts)
         ? posts.map(({ _id, title, fileUrl, views, comments, contents }) => {
-            let contentsRegEx = contents.replace(/(<([^>]+)>)/gi, "");
-            var check_num = /[0-9]/;
-            var check_eng = /[a-zA-Z]/;
+            let a = contents.replace(/(<([^>]+)>)/gi, ""); //태그저거
+            let contentsRegEx = a.replace(/&nbsp;/gi, ""); //nasp제거
             const contentsOpen = <div className="mb-5">{contentsRegEx}</div>;
             const contentsClose = contentsRegEx.slice(0, 80) + "...";
             return (

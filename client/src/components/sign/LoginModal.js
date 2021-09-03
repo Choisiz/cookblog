@@ -9,7 +9,6 @@ import {
   FormGroup,
   Input,
   Button,
-  Label,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
@@ -51,7 +50,6 @@ const LoginModal = () => {
     e.preventDefault();
     const { email, password } = form;
     const user = { email, password };
-    console.log(user);
     dispatch({
       type: LOGIN_REQUEST,
       payload: user,

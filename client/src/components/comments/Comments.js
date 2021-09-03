@@ -48,8 +48,10 @@ const Comments = ({ id, userName, userId }) => {
     <>
       <Form onSubmit={onSubmit}>
         <FormGroup>
-          <Row className="p-2">
-            <div className="font-weight-bold m-1">댓글 작성</div>
+          <Row
+            className="p-2 border-top"
+            style={{ backgroundColor: "#FAFAFA" }}
+          >
             <div className="my-1"></div>
             <Input
               innerRef={resetForm}
@@ -57,14 +59,20 @@ const Comments = ({ id, userName, userId }) => {
               name="contents"
               id="contents"
               onChange={onChange}
-              placeholder="댓글작성"
+              placeholder="여러분의 소중한 댓글을 입력해주세요"
+              style={{ height: "80px" }}
             />
             <Button
-              color="primary"
               block
-              className="mt-2 offset-md-10 col-md-2"
+              className="mt-3 mb-3 offset-md-10"
+              style={{
+                backgroundColor: "#6BACCE",
+                borderRadius: "20px",
+                border: "0",
+                width: "150px",
+              }}
             >
-              Submit
+              등록
             </Button>
           </Row>
         </FormGroup>

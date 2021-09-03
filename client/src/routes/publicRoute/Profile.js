@@ -18,9 +18,8 @@ import {
 import { MdLockOutline } from "react-icons/md";
 
 const Profile = () => {
-  const { userId, errorMassage, successMassage, preMessage } = useSelector(
-    (state) => state.login
-  );
+  const { userId, errorMassage, successMassage, preMessage, allMassage } =
+    useSelector((state) => state.login);
   const dispatch = useDispatch();
   const { userName } = useParams();
   const [form, setForm] = useState({
@@ -134,11 +133,8 @@ const Profile = () => {
               >
                 <strong>확인</strong>
               </Button>
-              {successMassage ? (
-                <Alert color="success">{successMassage}</Alert>
-              ) : (
-                ""
-              )}
+              {allMassage ? <Alert color="warning">{allMassage}</Alert> : ""}
+              {successMassage ? "" : <div></div>}
             </Form>
           </CardBody>
         </Card>

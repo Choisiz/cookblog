@@ -6,6 +6,7 @@ import { Row, Alert } from "reactstrap";
 import { GrowingSpinner } from "../../components/Spinners/Spinners";
 import Post from "../../components/post/Post";
 import Category from "../../components/post/Category";
+
 const PostCard = () => {
   const { posts, categoryFindResult, isLoading, postCount } = useSelector(
     (state) => state.post
@@ -51,7 +52,6 @@ const PostCard = () => {
         observer.current.disconnect();
       }
       if (node) {
-        console.log("node", node);
         //이후에 다시연결
         observer.current.observe(node);
       }
@@ -63,7 +63,7 @@ const PostCard = () => {
     <Fragment>
       <Helmet title="Home" />
       <Row>
-        <div className="border-top border-bottom border-dark py-2 mb-3">
+        <div className="border-top border-bottom py-2 mb-3">
           <Category posts={categoryFindResult} />
         </div>
       </Row>

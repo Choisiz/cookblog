@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Form, FormGroup, Input, Button } from "reactstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import { editorConfiguration } from "../../components/editor/EditorConfig";
 import Myinit from "../../components/editor/uploadEditor";
 import dotenv from "dotenv";
 import { POST_EDIT_UPLOAD_REQUEST } from "../../redux/types";
+import { Link } from "react-router-dom";
 dotenv.config();
 
 const PostEdit = () => {
@@ -91,11 +92,10 @@ const PostEdit = () => {
     }
   };
   return (
-    <div>
+    <div className="mt-5">
       {isAuthenticated ? (
         <Form onSubmit={onSubmit}>
           <FormGroup className="mb-3">
-            <Label for="title">Title</Label>
             <Input
               defaultValue={postDetail.title}
               type="text"
@@ -103,10 +103,11 @@ const PostEdit = () => {
               id="title"
               className="form-control"
               onChange={onChange}
+              style={{ border: "0" }}
             />
           </FormGroup>
+          <FormGroup className="border-top mb-5"></FormGroup>
           <FormGroup className="mb-3">
-            <Label for="category">Category</Label>
             <Input
               defaultValue={postDetail.category.categoryName}
               type="text"
@@ -114,10 +115,11 @@ const PostEdit = () => {
               id="category"
               className="form-control"
               onChange={onChange}
+              style={{ border: "0" }}
             />
           </FormGroup>
+          <FormGroup className="border-top mb-5"></FormGroup>
           <FormGroup className="mb-3">
-            <Label for="content">Content</Label>
             <CKEditor
               editor={ClassicEditor}
               config={editorConfiguration}
@@ -125,9 +127,30 @@ const PostEdit = () => {
               onInit={Myinit}
               onBlur={getdataFormCKEditor}
             />
-            <Button color="success" className="mt-3 col-md-2 offset-md-10 mb-3">
+            <Button
+              className="mt-5 mb-4"
+              style={{
+                marginRight: "10px",
+                backgroundColor: "#6BACCE",
+                borderRadius: "20px",
+                border: "0",
+                width: "150px",
+              }}
+            >
               완료
             </Button>
+            <Link
+              to="/"
+              className="btn btn-warning mt-5 mb-4"
+              style={{
+                color: "white",
+                borderRadius: "20px",
+                border: "0",
+                width: "150px",
+              }}
+            >
+              취소
+            </Link>
           </FormGroup>
         </Form>
       ) : null}

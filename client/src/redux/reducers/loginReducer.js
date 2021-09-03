@@ -30,6 +30,7 @@ const initialState = {
   errorMassage: "",
   successMassage: "",
   preMessage: "",
+  allMassage: "",
 };
 
 const loginReducer = (state = initialState, action) => {
@@ -118,6 +119,7 @@ const loginReducer = (state = initialState, action) => {
         successMassage: action.payload.successMassage,
         errorMassage: "",
         preMessage: "",
+        allMassage: "",
       };
     case PASSWORD_EDIT_FAIL:
       return {
@@ -125,7 +127,8 @@ const loginReducer = (state = initialState, action) => {
         isLoading: false,
         successMassage: "",
         errorMassage: action.payload.errorMassage,
-        preMessage: action.payload.Matchessage,
+        preMessage: action.payload.preMessage,
+        allMassage: action.payload.allMassage,
       };
     //clear error
     case CLEAR_ERROR_REQUEST:

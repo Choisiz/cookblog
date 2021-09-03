@@ -103,13 +103,16 @@ const AppNavbar = () => {
       <Navbar color="dark" dark expand="lg" className="sticky-top">
         <Container className="">
           <Link to="/" className="col-md-3 text-white text-decoration-none">
-            hello
+            <img src="/logo.png" width="60px" alt="logo" />
+            <span>Choi kyung yeul Blog</span>
           </Link>
           <div className="col-md-3"></div>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
             <SearchInput isOpen={isOpen} />
-            <Nav navbar>{isAuthenticated ? authLink : guestLink}</Nav>
+            <Nav className="d-flex flex-row" navbar>
+              {isAuthenticated ? authLink : guestLink}
+            </Nav>
           </Collapse>
         </Container>
       </Navbar>

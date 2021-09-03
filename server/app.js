@@ -9,9 +9,10 @@ import userRoute from "./routes/api/user";
 import loginRoute from "./routes/api/login";
 import searchRoute from "./routes/api/search";
 import cors from "cors";
+import path from "path";
 const app = express();
 const { MONGO_URI } = config;
-
+const prod = process.env.NODE_ENV === "production";
 app.use(hpp());
 //브라우저가 다른 도메인이나, 다른포트 서버에서 자원요청가능하게 해줌
 //보통 싱글페이지 애플리케이션에서는 서버에서 설정
@@ -37,4 +38,11 @@ app.use("/api/post", postRoute);
 app.use("/api/user", userRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/search", searchRoute);
+
+if (prod) {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+  });
+}
 export default app;

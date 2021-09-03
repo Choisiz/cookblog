@@ -45,9 +45,9 @@ const AppNavbar = () => {
 
   const authLink = (
     <Fragment>
-      <NavItem>
+      <NavItem style={{ marginLeft: "3px", marginRight: "5px" }}>
         {userRole === "MainOwner" ? (
-          <Form className="col mt-1 p-1">
+          <Form className="">
             <Link to="/post" onClick={addPostClick}>
               <Button style={{ border: 0, backgroundColor: "#1976d2" }}>
                 포스트 작성
@@ -59,11 +59,11 @@ const AppNavbar = () => {
         )}
       </NavItem>
       <NavItem className="d-flex justify-content-center">
-        <Form className="col mt-2">
+        <Form>
           {user && user.name ? (
             <Link to={`/user/${user.name}/profile`}>
               <Button style={{ border: 0, backgroundColor: "#FFC107" }}>
-                {user ? `이름: ${user.name}` : ""}
+                {user ? ` ${user.name}` : ""}
               </Button>
             </Link>
           ) : (
@@ -74,7 +74,7 @@ const AppNavbar = () => {
         </Form>
       </NavItem>
       <NavItem>
-        <Form className="col mt-2">
+        <Form>
           <Link onClick={onLogout} to="#">
             <Button
               style={{ border: 0, backgroundColor: "", marginLeft: "5px" }}
@@ -89,7 +89,7 @@ const AppNavbar = () => {
 
   const guestLink = (
     <Fragment>
-      <NavItem>
+      <NavItem style={{ marginRight: "3px" }}>
         <LoginModal />
       </NavItem>
       <NavItem>

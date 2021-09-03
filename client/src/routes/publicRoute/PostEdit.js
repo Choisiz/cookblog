@@ -124,7 +124,7 @@ const PostEdit = () => {
               editor={ClassicEditor}
               config={editorConfiguration}
               data={postDetail.contents}
-              onInit={Myinit}
+              onReady={Myinit}
               onBlur={getdataFormCKEditor}
             />
             <Button

@@ -14,6 +14,9 @@ import {
   POST_LOADING_FAIL,
   POST_LOADING_REQUEST,
   POST_LOADING_SUCESS,
+  POST_UPLOAD_REQUEST,
+  POST_UPLOAD_SUCESS,
+  POST_UPLOAD_FAIL,
   POST_WRITE_FAIL,
   POST_WRITE_REQUEST,
   POST_WRITE_SUCESS,
@@ -86,7 +89,6 @@ const postReducer = (state = initialState, action) => {
     case POST_DETAIL_SUCESS:
       return {
         ...state,
-        posts: [],
         postDetail: action.payload,
         creatorId: action.payload.creator._id,
         title: action.payload.title,

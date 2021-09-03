@@ -144,8 +144,8 @@ const loginReducer = (state = initialState, action) => {
     case CLEAR_ERROR_FAIL:
       return {
         ...state,
-        errorMassage: "",
-        preMessage: "",
+        errorMassage: "fail",
+        preMessage: "fail",
       };
     //default
     default:

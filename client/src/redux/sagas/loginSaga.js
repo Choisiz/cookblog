@@ -170,6 +170,7 @@ const passwordEditAPI = (payload) => {
 function* passwordEdit(action) {
   try {
     const result = yield call(passwordEditAPI, action.payload);
+    console.log("result", result);
     yield put({
       type: PASSWORD_EDIT_SUCESS,
       payload: result.data,

@@ -10,7 +10,6 @@ export const EditRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={(props) => {
         if (userId === creatorId) {
-          console.log("props?", { ...props });
           return <Component {...props} />;
         } else {
           return (
@@ -36,10 +35,8 @@ export const ProfileRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={(props) => {
         if (props.match.params.userName === userName) {
-          console.log("props?", { ...props });
           return <Component {...props} />;
         } else {
-          console.log("???");
           return (
             <Redirect
               to={{

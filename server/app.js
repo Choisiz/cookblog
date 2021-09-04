@@ -13,8 +13,13 @@ import path from "path";
 const app = express();
 const { MONGO_URI } = config;
 const prod = process.env.NODE_ENV === "production";
+
 app.use(hpp());
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 app.use(cors({ origin: true, Credential: true }));
 app.use(morgan("dev"));
 app.use(express.json());
@@ -41,4 +46,5 @@ if (prod) {
     res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
   });
 }
+
 export default app;

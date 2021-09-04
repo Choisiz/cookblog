@@ -4,6 +4,7 @@ import Post from "../../models/post";
 import Category from "../../models/category";
 import Comment from "../../models/comment";
 import User from "../../models/user";
+import "@babel/polyfill";
 //파일들을 s3와주고받기위한 라이브러리
 import multer from "multer";
 import multerS3 from "multer-s3";

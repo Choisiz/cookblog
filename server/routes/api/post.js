@@ -45,7 +45,6 @@ const uploadS3 = multer({
 //upload post
 router.post("/image", uploadS3.array("upload", 5), async (req, res, next) => {
   try {
-    console.log(req.files.map((v) => v.location));
     res.json({
       uploaded: true,
       url: req.files.map((v) => v.location),
@@ -156,7 +155,6 @@ router.get("/:id/comments", async (req, res) => {
 });
 //upload comment
 router.post("/:id/comments", async (req, res, next) => {
-  //const { title, contents, fileUrl, creator, category } = req.body;
   const newComment = await Comment.create({
     contents: req.body.contents,
     creator: req.body.userId,

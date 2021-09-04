@@ -24,7 +24,6 @@ router.get("/", async (req, res) => {
 //register
 router.post("/", (req, res) => {
   const { name, email, password, rePassword } = req.body;
-  console.log(rePassword);
   if (!name || !email || !password || !rePassword) {
     return res
       .status(400)

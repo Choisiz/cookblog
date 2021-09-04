@@ -14,10 +14,6 @@ const app = express();
 const { MONGO_URI } = config;
 const prod = process.env.NODE_ENV === "production";
 app.use(hpp());
-//브라우저가 다른 도메인이나, 다른포트 서버에서 자원요청가능하게 해줌
-//보통 싱글페이지 애플리케이션에서는 서버에서 설정
-// origin:허락하고자 하는 주소 true먄 모두허용
-// Credential: 지금설정한 cors설정을 브라우저 헤더에 추가
 app.use(helmet());
 app.use(cors({ origin: true, Credential: true }));
 app.use(morgan("dev"));

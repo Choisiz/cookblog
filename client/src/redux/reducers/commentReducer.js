@@ -41,7 +41,6 @@ const commentReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case COMMENT_UPLOAD_SUCESS:
-      console.log("tkrmtm", action.payload);
       return {
         ...state,
         comments: [...state.comments, action.payload],

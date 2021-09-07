@@ -4,7 +4,11 @@
 
 ## http://www.cky.monster/
 
-![img.gif](gif1.gif)
+### PRIVIEW
+
+![img.gif](readmeGif/gif1.gif)
+![img.gif](readmeGif/gif2.gif)
+![img.gif](readmeGif/gif3.gif)
 
 ### :muscle: STACK
 

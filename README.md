@@ -1,6 +1,10 @@
-# 트러블 슈팅
+# 프로젝트명: 개인 블로그
 
-### ----------------------------------------------------
+
+### :link: SITE LINK
+## http://www.cky.monster/
+
+
 ### :muscle: STACK
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
@@ -9,75 +13,46 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
-### 문제: 로그인유지가 되질않음
+> React를 사용한 프론트 엔드 구현
+> 
+> Redux, Redux-Saga 를 통한 상태관리
+> 
+> Node JS 를 사용한 백엔드 서버 구현
+> 
+> mongoDB를 사용한 DB 구성
+> 
+> CKEdit5 api를 이용한 포스트 작성
+> 
+> AWS를 사용한 호스팅
 
-### STACK
-```
-Header을 header로 변경
-```
 
-### 의문
+### :large_blue_circle: 기능
+:white_check_mark: 로그인,회원가입
+:white_check_mark: 포스터 리스트 형태로 보기
+:white_check_mark: 포스트 작성
+:white_check_mark: 포스트 상세보기
+:white_check_mark: 포스트 검색
+:white_check_mark: 포스트 무한스크롤
+:white_check_mark: 카테고리 별 포스트 보기
+:white_check_mark: 댓글보기 및 작성
+:white_check_mark: 프로필 수정하기
+:white_check_mark: 회원 권한 별 기능부여
 
-```
-다른코드들은 Heders 로도 제대로 동작기능이 실행됨
-MDN 사이트에서 찾아본 결과 HTTP 헤더는 대소문 구분하지 않는다고 써있음
-그렇다면 왜 이것만 이런 현상이 일어나는 것일까?
-생각할수 있는 가정은 에러부분만 jwt 토큰을 사용한다. 서버단에서
-req.header은 사용가능하나, req.Header로 실행시에는 에러가 발생한다.
-아마도 jwt방식은 header의 대소문을 구분하는것이 아닌가 싶다.
-```
 
-### ----------------------------------------------------
-
-### 문제: postSaga에서 데이터가 존재하질 않음
-
-### 해결
-
-```
-server에서 post부분에 auth 제거
-```
-
-### ----------------------------------------------------
-
-### 문제: 페이지 이동시 한번 새로고침해야 넘어감
-
-### 해결
+###  :large_blue_circle: 설명
 
 ```
-history가 5버전이었다. history5는 아직도 connected-react-router와 호환이 부족하여, 4로 변경하니 해결
-```
-
-### ----------------------------------------------------
-
-### 문제: 포스트 작성하면 데이터가 넘어가지 않고 완료됨
-
-### 해결
-
-```
-서버에 포스트작성 router에서 auth를 미들웨어로 두고 있는데 이 미들웨어는 token값을 요구한다. 따라서 해당 값을 서버에 요청을 해야하기 때문에 프론트 postWrite.js에서 token값을 넘겨줬더니 문제해결
-
-```
-
-### ----------------------------------------------------
-
-### 문제: 비로그인인데 인증화면 표시됨
-
-### 해결
-
-```
-auth 라우터 부분에서 status(401)삭제시 리듀서  isAuthenticated가
-자꾸 true로 표시된다. 아마도 res.json만 보낼시 성공으로 알고 자꾸
-success를 보내서 true로 표시되는것으로 추정된다. 따라서 state를 직접 명시하여 데이터를 전달해준다.
-```
-
-### ----------------------------------------------------
-
-### 문제: AWS ec2시 build가 실패
-
-### 해결
-
-```
-무료사용시 메모리 용량이 작기때문에 여러모로 문제가 발생할수 있다.
-이때는 메모리의 누수를 확인하거나, 유료서버를 사용하여 메모리의 크기를
-확장하도록 하자
+개인 블로그형 사이트 프로젝트입니다. 기본적으로 모든 포스트를 스크롤 형태로 열람 가능하며
+각 포스트는 클릭시 상세 보기가 가능합니다.
+개인 블로그의 초점이 맞춰져 있기 때문에 권한이 있는 관리자만 포스트 작성이 가능하며,
+일반적인 회원은 회원가입을 통해서 댓글작성이 가능합니다.
+포스트 작성은 CKEdit5를 이용하여 보다 손쉽게 글을 작성 하도록 하였으며 사진,동영상 저장은
+AWS S3를 통하여 데이터를 관리 하도록 하였습니다.
+각 포스트에 카테고리 태그를 할당하여 카테고리를 클릭시 카테고리별 포스트를 열람 가능하며,
+검색기능 또한 추가하여 대소문 상관없이 포스트 제목을 통한 검색이 가능하도록 하였습니다.
+로그인 후 프로필 수정을 클릭시 비밀번호 또한 변경을 가능하도록 하였습니다.
+전체적으로 프론트 구성은 React와 redux, bootstrap4를 통해 구현하였으며,
+이와 상호작용하는 백엔드는 Node.js의 express를 통해 구현하였습니다.
+DB부분은 MongoDB의 Mongoose를 통해 보다 데이터를 접근하여 구현하였습니다.
+배포는 AWS를 통해 배포를 진행하였습니다.
 ```

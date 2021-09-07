@@ -1,16 +1,11 @@
 # 프로젝트명: 개인 블로그
 
-### :link: SITE LINK
+## :link: SITE LINK
 
-## http://www.cky.monster/
+### http://www.cky.monster/
 
-### PRIVIEW
 
-![img.gif](readmeGif/gif1.gif)
-![img.gif](readmeGif/gif2.gif)
-![img.gif](readmeGif/gif3.gif)
-
-### :muscle: STACK
+## :muscle: STACK
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
@@ -31,7 +26,7 @@
 >
 > AWS를 사용한 호스팅
 
-### :large_blue_circle: 기능
+## :large_blue_circle: 기능
 
 :white_check_mark: 로그인,회원가입
 :white_check_mark: 포스터 리스트 형태로 보기
@@ -44,7 +39,13 @@
 :white_check_mark: 프로필 수정하기
 :white_check_mark: 회원 권한 별 기능부여
 
-### :large_blue_circle: 설명
+## :red_circle: PRIVIEW
+
+![img.gif](readmeGif/gif1.gif)
+![img.gif](readmeGif/gif2.gif)
+![img.gif](readmeGif/gif3.gif)
+
+## :large_blue_circle: 설명
 
 ```
 개인 블로그형 사이트 프로젝트입니다. 기본적으로 모든 포스트를 스크롤 형태로 열람 가능하며

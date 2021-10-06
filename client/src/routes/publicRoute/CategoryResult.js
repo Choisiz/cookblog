@@ -10,7 +10,6 @@ const CategoryResult = () => {
   const dispatch = useDispatch();
   let { categoryName } = useParams();
   const { categoryFindResult } = useSelector((state) => state.post);
-
   useEffect(() => {
     dispatch({
       type: CATEGORY_FIND_REQUEST,

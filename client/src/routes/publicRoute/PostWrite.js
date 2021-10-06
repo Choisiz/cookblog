@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 dotenv.config();
 
 const PostWrite = () => {
-  const { isAuthenticated } = useSelector((state) => state.login);
+  const { isAuthenticated, userId } = useSelector((state) => state.login);
   const [form, setForm] = useState({
     title: "",
     contents: "",
@@ -30,7 +30,7 @@ const PostWrite = () => {
     await e.preventDefault();
     const { title, contents, fileUrl, category } = form;
     const token = localStorage.getItem("token");
-    const body = { title, contents, fileUrl, category, token };
+    const body = { title, contents, fileUrl, category, token, userId };
     dispatch({
       type: POST_UPLOAD_REQUEST,
       payload: body,

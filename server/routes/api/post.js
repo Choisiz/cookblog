@@ -3,6 +3,7 @@ import auth from "../../middleware/auth";
 import Post from "../../models/post";
 import Category from "../../models/category";
 import Comment from "../../models/comment";
+import Bookmark from "../../models/bookmark";
 import User from "../../models/user";
 import "@babel/polyfill";
 //파일들을 s3와주고받기위한 라이브러리
@@ -57,14 +58,25 @@ router.post("/image", uploadS3.array("upload", 5), async (req, res, next) => {
   }
 });
 
+//read Post
 router.get("/skip/:skip", async (req, res) => {
   try {
     const postCount = await Post.countDocuments();
     const postFindResult = await Post.find()
+      .populate({
+        path: "bookmark",
+      })
       .skip(Number(req.params.skip))
       .limit(6)
       .sort({ date: -1 });
-    const categoryFindResult = await Category.find();
+
+    const categoryFindResult = await Category.find()
+      .populate({
+        path: "posts",
+      })
+      .populate({
+        path: "bookmark",
+      });
     const result = { postFindResult, categoryFindResult, postCount };
     res.json(result);
   } catch (e) {
@@ -76,7 +88,8 @@ router.get("/skip/:skip", async (req, res) => {
 //write post
 router.post("/", auth, uploadS3.none(), async (req, res, next) => {
   try {
-    const { title, contents, fileUrl, creator, category } = req.body;
+    const { title, contents, fileUrl, category, userId } = req.body;
+
     //req.body.title, req.body.contents ...
     const newPost = await Post.create({
       title,
@@ -86,6 +99,22 @@ router.post("/", auth, uploadS3.none(), async (req, res, next) => {
       date: moment().format("YYYY-MM-DD hh:mm:ss"),
       //title: title ..
     });
+
+    //bookmark
+    const defaultBookmark = await Bookmark.create({
+      creator: userId,
+      post: newPost._id,
+    });
+    try {
+      await Post.findByIdAndUpdate(newPost._id, {
+        $push: { bookmark: defaultBookmark._id },
+      });
+      await User.findByIdAndUpdate(req.user.id, {
+        $push: { bookmark: defaultBookmark._id },
+      });
+    } catch (e) {
+      console.log(e);
+    }
     //기존의 카테고리가 있는지 확인
     const findResult = await Category.findOne({
       categoryName: category,
@@ -186,6 +215,7 @@ router.post("/:id/comments", async (req, res, next) => {
 router.delete("/:id", auth, async (req, res) => {
   await Post.deleteMany({ _id: req.params.id });
   await Comment.deleteMany({ post: req.params.id });
+  await Bookmark.deleteMany({ post: req.params.id });
   await User.findByIdAndUpdate(req.user.id, {
     $pull: {
       posts: req.params.id,
@@ -274,6 +304,7 @@ router.post("/:id/edit", auth, async (req, res, next) => {
 
 //category
 router.get("/category/:categoryName", async (req, res, next) => {
+  console.log("req", req.params);
   try {
     const result = await Category.findOne(
       {
@@ -288,6 +319,24 @@ router.get("/category/:categoryName", async (req, res, next) => {
   } catch (e) {
     console.log(e);
     next(e);
+  }
+});
+
+router.post("/:id/bookmark", auth, async (req, res, next) => {
+  try {
+    const { isBookmarkd, userId, token, postId, bookmarkId } = req.body;
+
+    const bookmarkData = await Bookmark.findById(bookmarkId);
+    const bookmarkCreator = bookmarkData.creator;
+
+    if (userId == bookmarkCreator) {
+      const ss = await Bookmark.findByIdAndUpdate(bookmarkId, {
+        trueAndFalse: isBookmarkd,
+      });
+      res.json(ss);
+    }
+  } catch (e) {
+    console.log(e);
   }
 });
 

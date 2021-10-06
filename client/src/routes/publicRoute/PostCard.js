@@ -11,8 +11,8 @@ const PostCard = () => {
   const { posts, categoryFindResult, isLoading, postCount } = useSelector(
     (state) => state.post
   );
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
       type: POST_LOADING_REQUEST,

@@ -21,7 +21,6 @@ const PostDetail = (req) => {
   );
   const { userId, userName } = useSelector((state) => state.login);
   const { comments } = useSelector((state) => state.comment);
-
   useEffect(() => {
     dispatch({
       type: POST_DETAIL_REQUEST,

@@ -6,7 +6,7 @@ const Categroy = ({ posts }) => {
   return (
     <>
       {Array.isArray(posts)
-        ? posts.map(({ _id, categoryName, posts }) => (
+        ? posts.map(({ _id, categoryName, posts, bookmark }) => (
             <Fragment key={_id}>
               <Link to={`/post/category/${categoryName}`}>
                 <Button color="warning" className="m-1">

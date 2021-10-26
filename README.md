@@ -45,6 +45,9 @@
 ![img.gif](readmeGif/gif2.gif)
 ![img.gif](readmeGif/gif3.gif)
 
+## :red_circle: 도식화
+![image](https://user-images.githubusercontent.com/55791168/138934790-e451e0ca-6f31-4e4d-b662-274b96efea78.png)
+
 ## :large_blue_circle: 설명
 
 ```
